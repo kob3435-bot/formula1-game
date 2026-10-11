@@ -1,0 +1,93 @@
+GP RACING LEGENDS — BALANCE REPORT
+Generated 2026-10-11T06:08:57.731Z by tools/simulate.mjs (same performance model as in-game AI)
+
+=== A) CURRENT GRID · REAL MACHINERY · ALL 24 CIRCUITS · MIXED WEATHER — 300 races × 12 laps, AI difficulty PRO ===
+weather mix: SUNNY 65%, CLOUDY 17%, HEAVY_RAIN 8%, LIGHT_RAIN 11%
+RIDER                                OVR  BIKE                     WIN%   POD%  TOP5%  POLE%  AVG POS
+Max Verstappen                        96  RED BULL RB22             28.0   64.3   82.7   22.7    3.23
+Lando Norris                          93  McLAREN MCL40             17.0   51.0   79.7   23.3    3.81
+George Russell                        92  MERCEDES F1 W17           17.3   49.0   79.3   18.7    3.94
+Oscar Piastri                         92  McLAREN MCL40             15.0   46.0   73.0    6.3    4.20
+Lewis Hamilton                        91  FERRARI SF-26              8.3   34.3   56.3    3.3    5.31
+Kimi Antonelli                        88  MERCEDES F1 W17            8.0   28.7   54.7    8.3    5.89
+Charles Leclerc                       92  FERRARI SF-26              4.7   17.7   43.7   15.7    6.19
+Fernando Alonso                       90  ASTON MARTIN AMR26         0.7    3.3   11.0    0.0    9.01
+Carlos Sainz                          88  WILLIAMS FW48              0.0    2.3    8.0    0.3   10.27
+Alexander Albon                       86  WILLIAMS FW48              0.3    1.7    5.7    0.7   11.13
+Pierre Gasly                          86  ALPINE A526                0.3    0.3    1.3    0.0   12.06
+Esteban Ocon                          84  HAAS VF-26                 0.0    0.3    0.7    0.0   13.50
+Nico Hülkenberg                       85  AUDI R26                   0.0    0.0    1.0    0.0   13.69
+Isack Hadjar                          85  RED BULL RB22              0.3    0.7    1.0    0.3   13.74
+Sergio Pérez                          85  CADILLAC MAC-26            0.0    0.0    1.0    0.0   14.23
+Oliver Bearman                        84  HAAS VF-26                 0.0    0.0    0.7    0.3   15.57
+Gabriel Bortoleto                     83  AUDI R26                   0.0    0.0    0.0    0.0   16.68
+Liam Lawson                           82  RACING BULLS VCARB 03      0.0    0.3    0.3    0.0   16.73
+Lance Stroll                          80  ASTON MARTIN AMR26         0.0    0.0    0.0    0.0   17.81
+Valtteri Bottas                       84  CADILLAC MAC-26            0.0    0.0    0.0    0.0   17.87
+Franco Colapinto                      79  ALPINE A526                0.0    0.0    0.0    0.0   18.44
+Arvid Lindblad                        79  RACING BULLS VCARB 03      0.0    0.0    0.0    0.0   19.70
+Spearman(OVR rank vs avg finish rank) = 0.981 · top win rate 28.0% · 11/22 riders won at least once
+
+=== B) DREAM GRID · EQUAL MACHINERY · WORLD CHAMPIONS + CURRENT STARS — 150 races × 12 laps, AI difficulty PRO ===
+weather mix: CLOUDY 23%, SUNNY 62%, HEAVY_RAIN 5%, LIGHT_RAIN 10%
+RIDER                                OVR  BIKE                     WIN%   POD%  TOP5%  POLE%  AVG POS
+Michael Schumacher - 2004 Champion    98  SPEC F1 2026 CAR          20.0   51.3   69.3   14.7    4.60
+Lewis Hamilton - 2020 Champion        98  SPEC F1 2026 CAR          22.0   48.7   64.7   16.0    4.78
+Max Verstappen - 2023 Champion        98  SPEC F1 2026 CAR          19.3   54.0   68.0   24.7    4.95
+Ayrton Senna - 1988 Champion          98  SPEC F1 2026 CAR          13.3   28.7   51.3   11.3    6.20
+Fernando Alonso - 2005 Champion       96  SPEC F1 2026 CAR           3.3   23.3   37.3    4.7    7.49
+Sebastian Vettel - 2013 Champion      96  SPEC F1 2026 CAR           5.3   19.3   34.7    6.7    7.79
+Alain Prost - 1989 Champion           96  SPEC F1 2026 CAR           6.0   22.0   36.7    1.3    8.23
+Max Verstappen                        96  SPEC F1 2026 CAR           1.3   12.7   32.0    1.3    9.02
+Kimi Räikkönen - 2007 Champion        95  SPEC F1 2026 CAR           1.3    7.3   22.7    3.3    9.64
+Niki Lauda - 1984 Champion            94  SPEC F1 2026 CAR           0.7    4.0   12.0    0.0   10.55
+Nigel Mansell - 1992 Champion         95  SPEC F1 2026 CAR           1.3    9.3   20.7    6.7   10.62
+Mika Häkkinen - 1998 Champion         95  SPEC F1 2026 CAR           2.7    8.7   13.3    2.7   10.79
+Lando Norris - 2025 Champion          94  SPEC F1 2026 CAR           2.7    3.3   12.7    3.3   11.55
+Lando Norris                          93  SPEC F1 2026 CAR           0.7    2.7    4.7    1.3   13.69
+Lewis Hamilton                        91  SPEC F1 2026 CAR           0.0    1.3    5.3    0.0   14.25
+Oscar Piastri                         92  SPEC F1 2026 CAR           0.0    1.3    4.7    0.0   14.36
+George Russell                        92  SPEC F1 2026 CAR           0.0    0.0    4.7    0.7   14.47
+Fernando Alonso                       90  SPEC F1 2026 CAR           0.0    0.7    2.0    0.0   16.79
+Charles Leclerc                       92  SPEC F1 2026 CAR           0.0    0.7    0.7    1.3   17.19
+Kimi Antonelli                        88  SPEC F1 2026 CAR           0.0    0.7    2.7    0.0   17.29
+Carlos Sainz                          88  SPEC F1 2026 CAR           0.0    0.0    0.0    0.0   18.83
+Alexander Albon                       86  SPEC F1 2026 CAR           0.0    0.0    0.0    0.0   19.93
+Spearman(OVR rank vs avg finish rank) = 0.988 · top win rate 22.0% · 14/22 riders won at least once
+
+=== C) CURRENT GRID · HEAVY RAIN ONLY (wet specialists should rise) — 75 races × 12 laps, AI difficulty PRO ===
+weather mix: HEAVY_RAIN 100%
+RIDER                                OVR  BIKE                     WIN%   POD%  TOP5%  POLE%  AVG POS
+Max Verstappen                        96  RED BULL RB22             74.7   90.7   96.0   65.3    1.60
+Lewis Hamilton                        91  FERRARI SF-26              8.0   69.3   94.7    9.3    3.20
+Lando Norris                          93  McLAREN MCL40              1.3   53.3   82.7    6.7    3.91
+Kimi Antonelli                        88  MERCEDES F1 W17            8.0   41.3   78.7    5.3    4.11
+Oscar Piastri                         92  McLAREN MCL40              6.7   26.7   58.7    6.7    4.83
+George Russell                        92  MERCEDES F1 W17            1.3   10.7   49.3    4.0    5.60
+Charles Leclerc                       92  FERRARI SF-26              0.0    6.7   20.0    2.7    7.15
+Pierre Gasly                          86  ALPINE A526                0.0    0.0    4.0    0.0    8.84
+Fernando Alonso                       90  ASTON MARTIN AMR26         0.0    1.3    9.3    0.0    9.23
+Alexander Albon                       86  WILLIAMS FW48              0.0    0.0    5.3    0.0    9.91
+Carlos Sainz                          88  WILLIAMS FW48              0.0    0.0    1.3    0.0   11.63
+Sergio Pérez                          85  CADILLAC MAC-26            0.0    0.0    0.0    0.0   13.28
+Esteban Ocon                          84  HAAS VF-26                 0.0    0.0    0.0    0.0   13.29
+Lance Stroll                          80  ASTON MARTIN AMR26         0.0    0.0    0.0    0.0   14.57
+Isack Hadjar                          85  RED BULL RB22              0.0    0.0    0.0    0.0   14.76
+Nico Hülkenberg                       85  AUDI R26                   0.0    0.0    0.0    0.0   14.96
+Oliver Bearman                        84  HAAS VF-26                 0.0    0.0    0.0    0.0   16.53
+Gabriel Bortoleto                     83  AUDI R26                   0.0    0.0    0.0    0.0   17.93
+Valtteri Bottas                       84  CADILLAC MAC-26            0.0    0.0    0.0    0.0   18.33
+Liam Lawson                           82  RACING BULLS VCARB 03      0.0    0.0    0.0    0.0   18.39
+Franco Colapinto                      79  ALPINE A526                0.0    0.0    0.0    0.0   19.92
+Arvid Lindblad                        79  RACING BULLS VCARB 03      0.0    0.0    0.0    0.0   21.04
+Spearman(OVR rank vs avg finish rank) = 0.937 · top win rate 74.7% · 6/22 riders won at least once
+
+=== SUMMARY ===
+Total simulated races: 525 (7.7 s)
+A) rank correlation 0.981, top win rate 28.0%
+B) rank correlation 0.988, top win rate 22.0%
+Wet check: albon dry/mixed avg-rank P10 → heavy rain P10
+Wet check: antonelli dry/mixed avg-rank P6 → heavy rain P4
+Wet check: hamilton dry/mixed avg-rank P5 → heavy rain P2
+Wet check: verstappen dry/mixed avg-rank P1 → heavy rain P1
+Targets: higher OVR should win more over the long run (correlation > 0.8) without dominating (top win rate < 45%).

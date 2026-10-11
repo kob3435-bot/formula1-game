@@ -1,0 +1,190 @@
+import { shortName, riderTeamName } from '../data/riders.js';
+import { WEATHER, TIRES } from '../game/perf.js';
+
+export const fmtTime = (t) => { if (!isFinite(t) || t <= 0) return '--:--.---'; const m = Math.floor(t / 60); const s = t - m * 60; return `${m}:${s.toFixed(3).padStart(6, '0')}`; };
+export const fmtGap = (g) => (g >= 0 ? '+' : '-') + Math.abs(g).toFixed(3);
+
+export class Hud {
+  constructor(root) { this.root = root; this.el = null; this.notes = []; }
+  build({ race, geo, mobile, spectator, manual, settings, onPause, onCamera, input }) {
+    this.race = race; this.geo = geo; this.mobile = mobile; this.spectator = spectator;
+    const tw = TIRES[race.player?.tire || 'MEDIUM'];
+    this.root.innerHTML = `
+    <div class="hud ${mobile ? 'mobile' : ''} ${spectator ? 'spectator' : ''}">
+      <div class="rival" id="h-rival" hidden></div>
+      <div class="hud-tl">
+        <div class="hud-pos"><span class="big" id="h-pos">P-</span><span class="small" id="h-of">/${race.entrants.length}</span></div>
+        <div class="hud-lap">LAP <b id="h-lap">1</b>/${race.laps}</div>
+        <div class="tower" id="h-tower"></div>
+      </div>
+      <div class="hud-tc">
+        <div class="lights" id="h-lights">${'<i></i>'.repeat(5)}</div>
+        <div class="gaps" id="h-gaps"><span id="h-gapA"></span><span id="h-gapB"></span></div>
+        <div class="banner" id="h-banner"></div>
+      </div>
+      <div class="hud-tr">
+        <button class="hbtn" id="h-pause" aria-label="Pause">❚❚</button>
+        <button class="hbtn" id="h-cam" aria-label="Camera">CAM</button>
+        <div class="timing">
+          <div><label>LAP</label><b id="h-cur">--:--.---</b></div>
+          <div class="nm"><label>LAST</label><b id="h-last">--:--.---</b></div>
+          <div><label>BEST</label><b id="h-best">--:--.---</b></div>
+          <div class="sectors" id="h-sec"><i></i><i></i><i></i></div>
+        </div>
+        <div class="cond"><span>${WEATHER[race.weather].icon} ${WEATHER[race.weather].label}</span>${race.player ? `<span class="tyre" id="h-tyre" style="--tc:${tw.color}">${tw.label}</span><span id="h-wear"></span><span id="h-box"></span>` : ''}</div>
+      </div>
+      <div class="hud-bl"><canvas id="h-map" width="220" height="220"></canvas></div>
+      ${race.player ? `<div class="hud-br">
+        <div class="draft" id="h-otm"><span>OVERTAKE MODE</span></div>
+        <div class="draft" id="h-draft"><span>SLIPSTREAM</span><b><i id="h-draftbar"></i></b></div>
+        <div class="speedo"><div class="spd"><b id="h-spd">0</b><small>KM/H</small></div><div class="gear" id="h-gear">N</div></div>
+        <div class="rpm"><div id="h-rpm"></div></div>
+        <div class="assist" id="h-assist"></div>
+      </div>` : `<div class="hud-br spec-info" id="h-focus"></div>`}
+      ${race.player && mobile ? `<div class="touch">
+        <div class="tbtn left" id="t-left"><span>◀</span></div>
+        <div class="tbtn right" id="t-right"><span>▶</span></div>
+        <div class="tbtn box" id="t-box"><span>BOX</span></div>
+        ${manual ? `<div class="tbtn brake" id="t-brake"><span>BRAKE</span></div><div class="tbtn gas" id="t-gas"><span>GAS</span></div>` : ''}
+      </div>` : ''}
+      ${spectator ? `<div class="spec-ctl"><button class="hbtn" id="s-prev">◀ DRIVER</button><button class="hbtn" id="s-next">DRIVER ▶</button></div>` : ''}
+      <div class="lowerthird" id="h-lower"></div>
+      <div class="pops" id="h-pops"></div>
+    </div>`;
+    // element cache + write-on-change: no per-frame querySelector, no redundant DOM writes (no layout thrash)
+    const cache = new Map();
+    const $ = (id) => { let el = cache.get(id); if (el === undefined || (el && !el.isConnected)) { el = this.root.querySelector('#' + id); cache.set(id, el); } return el; };
+    this.$ = $; this._v = Object.create(null); this.clockT = 0; this.mapT2 = 0;
+    $('h-pause').onclick = onPause; $('h-cam').onclick = onCamera;
+    if (race.player && mobile && input) {
+      input.bindTouch($('t-left'), 'left'); input.bindTouch($('t-right'), 'right');
+      const bx = $('t-box'); if (bx) bx.addEventListener('pointerdown', (e) => { e.preventDefault(); input.press('pit'); });
+      if (manual) { input.bindTouch($('t-brake'), 'brake'); input.bindTouch($('t-gas'), 'throttle'); }
+    }
+    if (spectator) { $('s-prev').onclick = () => input.press('focusPrev'); $('s-next').onclick = () => input.press('focusNext'); }
+    this.mapCtx = $('h-map').getContext('2d');
+    this.buildMap();
+    this.lightEls = [...this.root.querySelectorAll('#h-lights i')];
+    this.towerT = 0;
+  }
+  buildMap() {
+    const g = this.geo; let mnx = 1e9, mxx = -1e9, mnz = 1e9, mxz = -1e9;
+    for (let i = 0; i < g.N; i++) { mnx = Math.min(mnx, g.x[i]); mxx = Math.max(mxx, g.x[i]); mnz = Math.min(mnz, g.z[i]); mxz = Math.max(mxz, g.z[i]); }
+    const sc = 190 / Math.max(mxx - mnx, mxz - mnz); const ox = 110 - (mnx + mxx) / 2 * sc, oz = 110 - (mnz + mxz) / 2 * sc;
+    this.mapT = (x, z) => [x * sc + ox, z * sc + oz];
+    const c = document.createElement('canvas'); c.width = c.height = 220; const x = c.getContext('2d');
+    x.lineJoin = 'round'; x.strokeStyle = 'rgba(0,0,0,0.6)'; x.lineWidth = 9; x.beginPath();
+    for (let i = 0; i <= g.N; i += 4) { const [px, pz] = this.mapT(g.x[i % g.N], g.z[i % g.N]); i ? x.lineTo(px, pz) : x.moveTo(px, pz); }
+    x.closePath(); x.stroke(); x.strokeStyle = '#e8e8e8'; x.lineWidth = 4; x.stroke();
+    const [sx, sz] = this.mapT(g.x[0], g.z[0]); x.fillStyle = '#e10600'; x.fillRect(sx - 4, sz - 4, 8, 8);
+    this.mapBase = c;
+  }
+  lights(n, go) {
+    this.lightEls.forEach((el, i) => { el.className = go ? 'go' : i < n ? 'on' : ''; });
+    this.$('h-lights').style.display = (n > 0 || go) ? 'flex' : 'none';
+  }
+  // online: the other human's position and time gap
+  rival(r, me, race) {
+    const el = document.getElementById('h-rival'); if (!el) return;
+    el.hidden = false;
+    let gap = '';
+    if (r.finished && me.finished) gap = (r.finishTime - me.finishTime >= 0 ? '+' : '') + (r.finishTime - me.finishTime).toFixed(2) + 's';
+    else { const ds = r.s - me.s, v = Math.max(15, ds > 0 ? me.v : r.v); gap = (ds > 0 ? '−' : '+') + Math.abs(ds / v).toFixed(1) + 's'; }
+    el.innerHTML = `<span>RIVAL</span><b>${r.rider.name.split(' ').slice(-1)[0].toUpperCase()}</b><i>P${r.pos}</i><em class="${r.s > me.s ? 'ahead' : 'behind'}">${gap}</em>`;
+  }
+  // v7: every mid-race message is a compact, semi-transparent chip in the top band (never over the track)
+  note(text, cls = '', dur = 2.4, sub = '') {
+    const b = this.$('h-banner'); if (!b) return;
+    dur = Math.min(dur, 1.8);
+    const d = document.createElement('div'); d.className = 'note ' + cls; d.textContent = text;
+    if (sub) { const s2 = document.createElement('small'); s2.textContent = ' ' + sub; d.appendChild(s2); }
+    b.appendChild(d);
+    setTimeout(() => d.classList.add('out'), dur * 1000); setTimeout(() => d.remove(), dur * 1000 + 400);
+    while (b.children.length > 3) b.firstChild.remove();
+  }
+  pop(text, cls = '', sub = '', dur = 1.6) { this.note(text, 'pop ' + cls, dur, sub ? String(sub).replace(/<[^>]*>/g, '') : ''); }
+  sector(k, cls) {
+    const el = this.$ && this.$('h-sec'); if (!el) return;
+    const is = el.children; if (k === 0) for (const i of is) i.className = '';
+    is[k].className = cls;
+  }
+  lower(e, extra = '') {
+    const el = this.$('h-lower'); if (!el) return;
+    if (!e) { el.classList.remove('show'); return; }
+    el.innerHTML = `<span class="num" style="background:${e.rider.helmet[0]};color:${e.rider.helmet[1]}">${e.rider.number}</span><div><b>${e.rider.name}</b><small>${riderTeamName(e.rider)}${extra}</small></div>`;
+    el.classList.add('show');
+  }
+  // text/html/class setters that touch the DOM only when the value actually changes
+  txt(id, v) { if (this._v[id] === v) return; this._v[id] = v; const el = this.$(id); if (el) el.textContent = v; }
+  html(id, v) { if (this._v[id] === v) return; this._v[id] = v; const el = this.$(id); if (el) el.innerHTML = v; }
+  update(dt, focus, cam) {
+    const r = this.race, $ = this.$;
+    const p = r.player || focus;
+    if (!p) return;
+    this.txt('h-pos', 'P' + p.pos);
+    this.txt('h-lap', String(Math.max(1, Math.min(r.laps, p.lap || 1))));
+    const raceT = r.goTime != null ? r.t - r.goTime : 0;
+    this.clockT -= dt;
+    if (this.clockT <= 0) { // the running lap clock is the only per-frame-changing string: 15 Hz is visually identical
+      this.clockT = 1 / 15;
+      this.txt('h-cur', r.goTime != null && !p.finished ? fmtTime(r.t - (p.lap > 0 ? p.lapStart : r.goTime)) : (p.finished ? 'FINISH' : '0:00.000'));
+      this.txt('h-last', fmtTime(p.lapTimes[p.lapTimes.length - 1]));
+      this.txt('h-best', fmtTime(p.bestLap));
+    }
+    if (r.player) {
+      const kmh = Math.round(p.v * 3.6);
+      this.txt('h-spd', String(kmh));
+      this.txt('h-gear', p.v < 0.5 && !p.started ? 'N' : String(p.gear));
+      const rf = Math.max(0, Math.min(1, (p.rpm - 4000) / 11000)), rq = Math.round(rf * 200);
+      if (rq !== this._rq) { this._rq = rq; const rpmEl = $('h-rpm'); if (rpmEl) { rpmEl.style.width = (rq / 2) + '%'; const c = rf > 0.93 ? 'redline' : rf > 0.78 ? 'high' : ''; if (rpmEl.className !== c) rpmEl.className = c; } }
+      if ($('h-wear')) this.txt('h-wear', Math.round((1 - p.wear) * 100) + '%');
+      if ($('h-tyre') && p.tire !== this._tyre) { this._tyre = p.tire; const tw2 = TIRES[p.tire] || TIRES.MEDIUM; $('h-tyre').textContent = tw2.label; $('h-tyre').style.setProperty('--tc', tw2.color); }
+      if ($('h-box')) this.txt('h-box', p.pitting ? 'IN PIT' : p.pitReq ? 'BOX THIS LAP' : (r.mandatoryStop && !r.usedTwoCompounds(p) ? 'STOP DUE (B)' : ''));
+      const om = $('h-otm'); if (om) { const on = r.otm(p) > 0; if (on !== this.otmOn) { om.classList.toggle('on', on); this.otmOn = on; } }
+      const dr = $('h-draft'); if (dr) { const on = p.draft > 0.08 && p.v > 30; if (on !== this.draftOn) { dr.classList.toggle('on', on); this.draftOn = on; } if (on) { const w = Math.round(Math.min(1, p.draft) * 20) * 5; if (w !== this._dw) { this._dw = w; $('h-draftbar').style.width = w + '%'; } } }
+      if ($('h-assist')) this.html('h-assist', p.offTrack ? '<i class="b">OFF TRACK</i>' : p.brake > 0.05 ? `<i class="b" style="opacity:${(0.4 + Math.round(p.brake * 5) / 5 * 0.6).toFixed(2)}">BRAKE</i>` : p.throttle > 0.6 ? '<i class="g">THROTTLE</i>' : '<i class="y">LIFT</i>');
+    }
+    // gaps (10 Hz)
+    const idx = r.order.indexOf(p);
+    this.gapT = (this.gapT || 0) - dt;
+    if (this.gapT <= 0) {
+      this.gapT = 0.1;
+      const A = r.order[idx - 1], B = r.order[idx + 1];
+      if (r.goTime != null && raceT > 3 && !p.finished) {
+        this.html('h-gapA', A ? `<em>${shortName(A.rider)}</em> ${fmtGap(-r.gap(A, p))}` : '<em>LEADER</em>');
+        this.html('h-gapB', B && !B.finished ? `<em>${shortName(B.rider)}</em> ${fmtGap(r.gap(p, B))}` : '');
+      } else { this.txt('h-gapA', ''); this.txt('h-gapB', ''); }
+    }
+    // tower (throttled)
+    this.towerT -= dt;
+    if (this.towerT <= 0 && !this.mobile) {
+      this.towerT = 0.5;
+      const rows = [];
+      const n = r.order.length; const show = new Set();
+      for (let k = 0; k < Math.min(5, n); k++) show.add(k);
+      for (let k = Math.max(0, idx - 2); k <= Math.min(n - 1, idx + 2); k++) show.add(k);
+      let lastK = -1;
+      for (const k of [...show].sort((a, b) => a - b)) {
+        if (k !== lastK + 1) rows.push('<div class="tr sep">···</div>');
+        const e = r.order[k];
+        const g = k === 0 ? (e.finished ? 'FIN' : 'LEADER') : (raceT > 3 ? fmtGap(r.gap(r.order[0], e) > 0 ? r.gap(r.order[0], e) : 0) : '');
+        rows.push(`<div class="tr ${e === p ? 'me' : ''}"><span class="p">${k + 1}</span><span class="c" style="background:${e.rider.helmet[0]}"></span><span class="n">${shortName(e.rider)}</span><span class="g">${g}</span></div>`);
+        lastK = k;
+      }
+      this.html('h-tower', rows.join(''));
+    }
+    // minimap (30 Hz is plenty for dots)
+    this.mapT2 -= dt; if (this.mapT2 > 0) return; this.mapT2 = 1 / 30;
+    const x = this.mapCtx; x.clearRect(0, 0, 220, 220); x.drawImage(this.mapBase, 0, 0);
+    for (const e of r.entrants) {
+      const i = ((Math.floor(e.s / this.geo.ds) % this.geo.N) + this.geo.N) % this.geo.N;
+      const [px, pz] = this.mapT(this.geo.x[i], this.geo.z[i]);
+      x.fillStyle = e === p ? '#ffdd00' : e.rider.helmet[0]; x.strokeStyle = '#000'; x.lineWidth = 1.5;
+      x.beginPath(); x.arc(px, pz, e === p ? 6 : 3.6, 0, Math.PI * 2); x.fill(); x.stroke();
+    }
+    if (this.spectator) {
+      const f = $('h-focus');
+      if (f) this.html('h-focus', `<div class="sp-name"><span class="num" style="background:${p.rider.helmet[0]};color:${p.rider.helmet[1]}">${p.rider.number}</span> ${p.rider.name}</div><div class="sp-row">P${p.pos} · ${Math.round(p.v * 3.6)} km/h · ${cam.toUpperCase()} CAM</div>`);
+    }
+  }
+}

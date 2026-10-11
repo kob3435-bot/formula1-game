@@ -1,0 +1,2553 @@
+[
+ {
+  "id": "norris",
+  "name": "Lando Norris",
+  "number": 1,
+  "nationality": "GBR",
+  "kind": "current",
+  "age": 26,
+  "team": "mclaren",
+  "helmet": [
+   "#d4ff00",
+   "#1a1a1a",
+   "#ff8000"
+  ],
+  "styles": [
+   "Qualifying Ace",
+   "Smooth Operator"
+  ],
+  "personality": "SMOOTH",
+  "attributes": {
+   "speed": 95,
+   "acceleration": 92,
+   "braking": 91,
+   "cornerEntry": 92,
+   "midCorner": 95,
+   "cornerExit": 95,
+   "throttleControl": 91,
+   "racePace": 92,
+   "qualifying": 97,
+   "overtaking": 95,
+   "defending": 89,
+   "racecraft": 93,
+   "consistency": 94,
+   "wet": 92,
+   "tireManagement": 91,
+   "bikeControl": 91,
+   "aggression": 94,
+   "reaction": 94,
+   "mental": 90,
+   "clutch": 93
+  },
+  "hidden": {
+   "riskTaking": 90,
+   "lateBrakingConfidence": 89,
+   "slipstreamUsage": 89,
+   "pressureResistance": 88,
+   "startReaction": 92
+  },
+  "strengths": "Reigning world champion: devastating one-lap pace and silky high-speed cornering.",
+  "weaknesses": "Can lose places on lap one; occasionally too hard on himself."
+ },
+ {
+  "id": "piastri",
+  "name": "Oscar Piastri",
+  "number": 81,
+  "nationality": "AUS",
+  "kind": "current",
+  "age": 25,
+  "team": "mclaren",
+  "helmet": [
+   "#ff8000",
+   "#0033a0",
+   "#ffffff"
+  ],
+  "styles": [
+   "Smooth Operator",
+   "Tire Whisperer"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 90,
+   "acceleration": 89,
+   "braking": 90,
+   "cornerEntry": 90,
+   "midCorner": 89,
+   "cornerExit": 93,
+   "throttleControl": 92,
+   "racePace": 90,
+   "qualifying": 91,
+   "overtaking": 91,
+   "defending": 90,
+   "racecraft": 95,
+   "consistency": 94,
+   "wet": 91,
+   "tireManagement": 94,
+   "bikeControl": 91,
+   "aggression": 91,
+   "reaction": 92,
+   "mental": 95,
+   "clutch": 90
+  },
+  "hidden": {
+   "riskTaking": 83,
+   "lateBrakingConfidence": 87,
+   "slipstreamUsage": 93,
+   "pressureResistance": 97,
+   "startReaction": 88
+  },
+  "strengths": "Ice-cool racer, superb tyre management and racecraft.",
+  "weaknesses": "Less comfortable in changeable wet conditions."
+ },
+ {
+  "id": "russell",
+  "name": "George Russell",
+  "number": 63,
+  "nationality": "GBR",
+  "kind": "current",
+  "age": 28,
+  "team": "mercedes",
+  "helmet": [
+   "#00d2be",
+   "#1a1a1a",
+   "#ffffff"
+  ],
+  "styles": [
+   "Qualifying Ace",
+   "Late Brake Master"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 92,
+   "acceleration": 90,
+   "braking": 94,
+   "cornerEntry": 90,
+   "midCorner": 93,
+   "cornerExit": 90,
+   "throttleControl": 90,
+   "racePace": 90,
+   "qualifying": 97,
+   "overtaking": 93,
+   "defending": 92,
+   "racecraft": 93,
+   "consistency": 96,
+   "wet": 90,
+   "tireManagement": 92,
+   "bikeControl": 93,
+   "aggression": 89,
+   "reaction": 91,
+   "mental": 92,
+   "clutch": 92
+  },
+  "hidden": {
+   "riskTaking": 85,
+   "lateBrakingConfidence": 96,
+   "slipstreamUsage": 88,
+   "pressureResistance": 89,
+   "startReaction": 86
+  },
+  "strengths": "Outstanding qualifier and a sharp, consistent team leader.",
+  "weaknesses": "Occasionally over-aggressive in wheel-to-wheel fights."
+ },
+ {
+  "id": "antonelli",
+  "name": "Kimi Antonelli",
+  "number": 12,
+  "nationality": "ITA",
+  "kind": "current",
+  "age": 20,
+  "potential": 96,
+  "team": "mercedes",
+  "helmet": [
+   "#ffd400",
+   "#00d2be",
+   "#1a1a1a"
+  ],
+  "styles": [
+   "Aggressive Attacker",
+   "Wet Master"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 92,
+   "acceleration": 88,
+   "braking": 87,
+   "cornerEntry": 89,
+   "midCorner": 89,
+   "cornerExit": 86,
+   "throttleControl": 89,
+   "racePace": 89,
+   "qualifying": 90,
+   "overtaking": 89,
+   "defending": 88,
+   "racecraft": 88,
+   "consistency": 82,
+   "wet": 95,
+   "tireManagement": 90,
+   "bikeControl": 87,
+   "aggression": 92,
+   "reaction": 89,
+   "mental": 86,
+   "clutch": 86
+  },
+  "hidden": {
+   "riskTaking": 97,
+   "lateBrakingConfidence": 91,
+   "slipstreamUsage": 83,
+   "pressureResistance": 84,
+   "startReaction": 87
+  },
+  "strengths": "Raw natural speed, brilliant in the wet.",
+  "weaknesses": "Still learning consistency over a full season."
+ },
+ {
+  "id": "verstappen",
+  "name": "Max Verstappen",
+  "number": 3,
+  "nationality": "NED",
+  "kind": "current",
+  "age": 29,
+  "team": "redbull",
+  "helmet": [
+   "#ff6600",
+   "#1e3a8a",
+   "#ffffff"
+  ],
+  "styles": [
+   "Aggressive Attacker",
+   "Wet Master",
+   "Late Brake Master"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 95,
+   "acceleration": 93,
+   "braking": 98,
+   "cornerEntry": 98,
+   "midCorner": 93,
+   "cornerExit": 95,
+   "throttleControl": 95,
+   "racePace": 96,
+   "qualifying": 94,
+   "overtaking": 98,
+   "defending": 98,
+   "racecraft": 98,
+   "consistency": 96,
+   "wet": 98,
+   "tireManagement": 95,
+   "bikeControl": 97,
+   "aggression": 98,
+   "reaction": 94,
+   "mental": 96,
+   "clutch": 93
+  },
+  "hidden": {
+   "riskTaking": 99,
+   "lateBrakingConfidence": 99,
+   "slipstreamUsage": 94,
+   "pressureResistance": 99,
+   "startReaction": 91
+  },
+  "strengths": "Four-time world champion: complete package, relentless racecraft, master in the rain.",
+  "weaknesses": "Uncompromising defending can draw penalties."
+ },
+ {
+  "id": "hadjar",
+  "name": "Isack Hadjar",
+  "number": 6,
+  "nationality": "FRA",
+  "kind": "current",
+  "age": 22,
+  "potential": 92,
+  "team": "redbull",
+  "helmet": [
+   "#ffffff",
+   "#0055a4",
+   "#ef4135"
+  ],
+  "styles": [
+   "Aggressive Attacker"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 86,
+   "acceleration": 85,
+   "braking": 84,
+   "cornerEntry": 83,
+   "midCorner": 83,
+   "cornerExit": 83,
+   "throttleControl": 87,
+   "racePace": 87,
+   "qualifying": 88,
+   "overtaking": 90,
+   "defending": 84,
+   "racecraft": 85,
+   "consistency": 82,
+   "wet": 84,
+   "tireManagement": 82,
+   "bikeControl": 83,
+   "aggression": 88,
+   "reaction": 83,
+   "mental": 87,
+   "clutch": 84
+  },
+  "hidden": {
+   "riskTaking": 90,
+   "lateBrakingConfidence": 81,
+   "slipstreamUsage": 82,
+   "pressureResistance": 83,
+   "startReaction": 79
+  },
+  "strengths": "Fast, fearless and quick to learn.",
+  "weaknesses": "Can overdrive under pressure."
+ },
+ {
+  "id": "leclerc",
+  "name": "Charles Leclerc",
+  "number": 16,
+  "nationality": "MON",
+  "kind": "current",
+  "age": 28,
+  "team": "ferrari",
+  "helmet": [
+   "#e8002d",
+   "#ffffff",
+   "#0b2a6f"
+  ],
+  "styles": [
+   "Qualifying Ace",
+   "Late Brake Master"
+  ],
+  "personality": "QUALIFYING SPECIALIST",
+  "attributes": {
+   "speed": 91,
+   "acceleration": 90,
+   "braking": 94,
+   "cornerEntry": 94,
+   "midCorner": 92,
+   "cornerExit": 89,
+   "throttleControl": 90,
+   "racePace": 90,
+   "qualifying": 98,
+   "overtaking": 91,
+   "defending": 91,
+   "racecraft": 93,
+   "consistency": 92,
+   "wet": 89,
+   "tireManagement": 86,
+   "bikeControl": 93,
+   "aggression": 92,
+   "reaction": 90,
+   "mental": 92,
+   "clutch": 93
+  },
+  "hidden": {
+   "riskTaking": 94,
+   "lateBrakingConfidence": 99,
+   "slipstreamUsage": 88,
+   "pressureResistance": 86,
+   "startReaction": 86
+  },
+  "strengths": "Phenomenal single-lap speed; pole position specialist.",
+  "weaknesses": "Tyre management in long stints."
+ },
+ {
+  "id": "hamilton",
+  "name": "Lewis Hamilton",
+  "number": 44,
+  "nationality": "GBR",
+  "kind": "current",
+  "age": 41,
+  "team": "ferrari",
+  "helmet": [
+   "#ffde00",
+   "#a0a0a0",
+   "#7b00ff"
+  ],
+  "styles": [
+   "Smooth Operator",
+   "Tire Whisperer",
+   "Wet Master"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 91,
+   "acceleration": 90,
+   "braking": 90,
+   "cornerEntry": 88,
+   "midCorner": 90,
+   "cornerExit": 88,
+   "throttleControl": 89,
+   "racePace": 90,
+   "qualifying": 89,
+   "overtaking": 93,
+   "defending": 92,
+   "racecraft": 95,
+   "consistency": 89,
+   "wet": 95,
+   "tireManagement": 97,
+   "bikeControl": 89,
+   "aggression": 92,
+   "reaction": 87,
+   "mental": 93,
+   "clutch": 88
+  },
+  "hidden": {
+   "riskTaking": 88,
+   "lateBrakingConfidence": 87,
+   "slipstreamUsage": 90,
+   "pressureResistance": 97,
+   "startReaction": 85
+  },
+  "strengths": "Seven-time world champion: racecraft, tyre whispering and wet-weather genius.",
+  "weaknesses": "Raw qualifying pace has faded slightly."
+ },
+ {
+  "id": "albon",
+  "name": "Alexander Albon",
+  "number": 23,
+  "nationality": "THA",
+  "kind": "current",
+  "age": 30,
+  "team": "williams",
+  "helmet": [
+   "#2d2a4a",
+   "#ed1c24",
+   "#ffffff"
+  ],
+  "styles": [
+   "Defensive Master",
+   "Tire Whisperer"
+  ],
+  "personality": "DEFENSIVE",
+  "attributes": {
+   "speed": 84,
+   "acceleration": 85,
+   "braking": 84,
+   "cornerEntry": 85,
+   "midCorner": 84,
+   "cornerExit": 84,
+   "throttleControl": 87,
+   "racePace": 87,
+   "qualifying": 85,
+   "overtaking": 86,
+   "defending": 90,
+   "racecraft": 88,
+   "consistency": 87,
+   "wet": 87,
+   "tireManagement": 90,
+   "bikeControl": 84,
+   "aggression": 84,
+   "reaction": 84,
+   "mental": 83,
+   "clutch": 85
+  },
+  "hidden": {
+   "riskTaking": 78,
+   "lateBrakingConfidence": 81,
+   "slipstreamUsage": 83,
+   "pressureResistance": 78,
+   "startReaction": 78
+  },
+  "strengths": "Superb defender, maximises every opportunity.",
+  "weaknesses": "Outright one-lap pace."
+ },
+ {
+  "id": "sainz",
+  "name": "Carlos Sainz",
+  "number": 55,
+  "nationality": "ESP",
+  "kind": "current",
+  "age": 32,
+  "team": "williams",
+  "helmet": [
+   "#c60b1e",
+   "#ffc400",
+   "#1868db"
+  ],
+  "styles": [
+   "Smooth Operator",
+   "Tire Whisperer"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 88,
+   "acceleration": 89,
+   "braking": 86,
+   "cornerEntry": 88,
+   "midCorner": 86,
+   "cornerExit": 87,
+   "throttleControl": 86,
+   "racePace": 87,
+   "qualifying": 86,
+   "overtaking": 88,
+   "defending": 85,
+   "racecraft": 93,
+   "consistency": 89,
+   "wet": 86,
+   "tireManagement": 89,
+   "bikeControl": 87,
+   "aggression": 87,
+   "reaction": 88,
+   "mental": 91,
+   "clutch": 87
+  },
+  "hidden": {
+   "riskTaking": 79,
+   "lateBrakingConfidence": 83,
+   "slipstreamUsage": 88,
+   "pressureResistance": 89,
+   "startReaction": 83
+  },
+  "strengths": "Intelligent strategist with great race management.",
+  "weaknesses": "Rarely the fastest over a single lap."
+ },
+ {
+  "id": "lawson",
+  "name": "Liam Lawson",
+  "number": 30,
+  "nationality": "NZL",
+  "kind": "current",
+  "age": 24,
+  "team": "racingbulls",
+  "helmet": [
+   "#111111",
+   "#ffffff",
+   "#1634cc"
+  ],
+  "styles": [
+   "Aggressive Attacker",
+   "Defensive Master"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 81,
+   "acceleration": 82,
+   "braking": 82,
+   "cornerEntry": 83,
+   "midCorner": 83,
+   "cornerExit": 84,
+   "throttleControl": 81,
+   "racePace": 82,
+   "qualifying": 80,
+   "overtaking": 83,
+   "defending": 85,
+   "racecraft": 84,
+   "consistency": 79,
+   "wet": 81,
+   "tireManagement": 83,
+   "bikeControl": 81,
+   "aggression": 87,
+   "reaction": 81,
+   "mental": 80,
+   "clutch": 83
+  },
+  "hidden": {
+   "riskTaking": 89,
+   "lateBrakingConfidence": 77,
+   "slipstreamUsage": 78,
+   "pressureResistance": 78,
+   "startReaction": 77
+  },
+  "strengths": "Tough, combative racer.",
+  "weaknesses": "Qualifying consistency."
+ },
+ {
+  "id": "lindblad",
+  "name": "Arvid Lindblad",
+  "number": 41,
+  "nationality": "GBR",
+  "kind": "current",
+  "age": 19,
+  "potential": 93,
+  "team": "racingbulls",
+  "helmet": [
+   "#ffffff",
+   "#1634cc",
+   "#ffd400"
+  ],
+  "styles": [
+   "Launch Specialist",
+   "Aggressive Attacker"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 77,
+   "acceleration": 78,
+   "braking": 79,
+   "cornerEntry": 80,
+   "midCorner": 78,
+   "cornerExit": 77,
+   "throttleControl": 80,
+   "racePace": 79,
+   "qualifying": 79,
+   "overtaking": 81,
+   "defending": 79,
+   "racecraft": 78,
+   "consistency": 77,
+   "wet": 78,
+   "tireManagement": 74,
+   "bikeControl": 81,
+   "aggression": 85,
+   "reaction": 86,
+   "mental": 80,
+   "clutch": 84
+  },
+  "hidden": {
+   "riskTaking": 86,
+   "lateBrakingConfidence": 74,
+   "slipstreamUsage": 73,
+   "pressureResistance": 78,
+   "startReaction": 91
+  },
+  "strengths": "Rookie with rocket starts and huge potential.",
+  "weaknesses": "Inexperience over race distance."
+ },
+ {
+  "id": "alonso",
+  "name": "Fernando Alonso",
+  "number": 14,
+  "nationality": "ESP",
+  "kind": "current",
+  "age": 45,
+  "team": "astonmartin",
+  "helmet": [
+   "#00594f",
+   "#cedc00",
+   "#c60b1e"
+  ],
+  "styles": [
+   "Defensive Master",
+   "Launch Specialist",
+   "Tire Whisperer"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 84,
+   "acceleration": 89,
+   "braking": 88,
+   "cornerEntry": 90,
+   "midCorner": 87,
+   "cornerExit": 88,
+   "throttleControl": 91,
+   "racePace": 89,
+   "qualifying": 87,
+   "overtaking": 87,
+   "defending": 97,
+   "racecraft": 97,
+   "consistency": 89,
+   "wet": 88,
+   "tireManagement": 95,
+   "bikeControl": 87,
+   "aggression": 89,
+   "reaction": 93,
+   "mental": 96,
+   "clutch": 93
+  },
+  "hidden": {
+   "riskTaking": 87,
+   "lateBrakingConfidence": 82,
+   "slipstreamUsage": 94,
+   "pressureResistance": 99,
+   "startReaction": 98
+  },
+  "strengths": "Two-time world champion: legendary starts, racecraft and defence.",
+  "weaknesses": "Age is starting to blunt peak qualifying speed."
+ },
+ {
+  "id": "stroll",
+  "name": "Lance Stroll",
+  "number": 18,
+  "nationality": "CAN",
+  "kind": "current",
+  "age": 28,
+  "team": "astonmartin",
+  "helmet": [
+   "#ffffff",
+   "#d52b1e",
+   "#00594f"
+  ],
+  "styles": [
+   "Launch Specialist",
+   "Wet Master"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 80,
+   "acceleration": 82,
+   "braking": 81,
+   "cornerEntry": 80,
+   "midCorner": 83,
+   "cornerExit": 81,
+   "throttleControl": 82,
+   "racePace": 81,
+   "qualifying": 75,
+   "overtaking": 82,
+   "defending": 81,
+   "racecraft": 80,
+   "consistency": 78,
+   "wet": 87,
+   "tireManagement": 82,
+   "bikeControl": 79,
+   "aggression": 80,
+   "reaction": 79,
+   "mental": 79,
+   "clutch": 88
+  },
+  "hidden": {
+   "riskTaking": 78,
+   "lateBrakingConfidence": 78,
+   "slipstreamUsage": 75,
+   "pressureResistance": 77,
+   "startReaction": 80
+  },
+  "strengths": "Strong starts and confident in the wet.",
+  "weaknesses": "Qualifying pace."
+ },
+ {
+  "id": "ocon",
+  "name": "Esteban Ocon",
+  "number": 31,
+  "nationality": "FRA",
+  "kind": "current",
+  "age": 30,
+  "team": "haas",
+  "helmet": [
+   "#ff87bc",
+   "#0093cc",
+   "#ffffff"
+  ],
+  "styles": [
+   "Defensive Master"
+  ],
+  "personality": "DEFENSIVE",
+  "attributes": {
+   "speed": 83,
+   "acceleration": 85,
+   "braking": 84,
+   "cornerEntry": 84,
+   "midCorner": 82,
+   "cornerExit": 86,
+   "throttleControl": 84,
+   "racePace": 86,
+   "qualifying": 81,
+   "overtaking": 82,
+   "defending": 91,
+   "racecraft": 85,
+   "consistency": 85,
+   "wet": 85,
+   "tireManagement": 86,
+   "bikeControl": 83,
+   "aggression": 85,
+   "reaction": 85,
+   "mental": 85,
+   "clutch": 85
+  },
+  "hidden": {
+   "riskTaking": 82,
+   "lateBrakingConfidence": 82,
+   "slipstreamUsage": 82,
+   "pressureResistance": 82,
+   "startReaction": 80
+  },
+  "strengths": "Very hard to pass, opportunistic.",
+  "weaknesses": "Peaks and troughs in form."
+ },
+ {
+  "id": "bearman",
+  "name": "Oliver Bearman",
+  "number": 87,
+  "nationality": "GBR",
+  "kind": "current",
+  "age": 21,
+  "potential": 92,
+  "team": "haas",
+  "helmet": [
+   "#e6002b",
+   "#ffffff",
+   "#1a1a1a"
+  ],
+  "styles": [
+   "Aggressive Attacker",
+   "Late Brake Master"
+  ],
+  "personality": "LATE BRAKER",
+  "attributes": {
+   "speed": 82,
+   "acceleration": 83,
+   "braking": 89,
+   "cornerEntry": 84,
+   "midCorner": 83,
+   "cornerExit": 83,
+   "throttleControl": 85,
+   "racePace": 84,
+   "qualifying": 83,
+   "overtaking": 88,
+   "defending": 82,
+   "racecraft": 85,
+   "consistency": 82,
+   "wet": 83,
+   "tireManagement": 81,
+   "bikeControl": 86,
+   "aggression": 89,
+   "reaction": 85,
+   "mental": 84,
+   "clutch": 86
+  },
+  "hidden": {
+   "riskTaking": 90,
+   "lateBrakingConfidence": 94,
+   "slipstreamUsage": 81,
+   "pressureResistance": 79,
+   "startReaction": 80
+  },
+  "strengths": "Bold late-braking overtaker.",
+  "weaknesses": "Raw race management."
+ },
+ {
+  "id": "hulkenberg",
+  "name": "Nico Hülkenberg",
+  "number": 27,
+  "nationality": "GER",
+  "kind": "current",
+  "age": 39,
+  "team": "audi",
+  "helmet": [
+   "#ffd400",
+   "#111111",
+   "#e2001a"
+  ],
+  "styles": [
+   "Qualifying Ace",
+   "Smooth Operator"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 83,
+   "acceleration": 85,
+   "braking": 84,
+   "cornerEntry": 83,
+   "midCorner": 86,
+   "cornerExit": 85,
+   "throttleControl": 83,
+   "racePace": 83,
+   "qualifying": 88,
+   "overtaking": 82,
+   "defending": 86,
+   "racecraft": 86,
+   "consistency": 89,
+   "wet": 83,
+   "tireManagement": 87,
+   "bikeControl": 86,
+   "aggression": 83,
+   "reaction": 86,
+   "mental": 83,
+   "clutch": 83
+  },
+  "hidden": {
+   "riskTaking": 76,
+   "lateBrakingConfidence": 81,
+   "slipstreamUsage": 82,
+   "pressureResistance": 80,
+   "startReaction": 83
+  },
+  "strengths": "Experienced, consistent and quick on Saturdays.",
+  "weaknesses": "Lap-one chaos."
+ },
+ {
+  "id": "bortoleto",
+  "name": "Gabriel Bortoleto",
+  "number": 5,
+  "nationality": "BRA",
+  "kind": "current",
+  "age": 22,
+  "potential": 92,
+  "team": "audi",
+  "helmet": [
+   "#009c3b",
+   "#ffdf00",
+   "#ffffff"
+  ],
+  "styles": [
+   "Smooth Operator"
+  ],
+  "personality": "SMOOTH",
+  "attributes": {
+   "speed": 84,
+   "acceleration": 85,
+   "braking": 81,
+   "cornerEntry": 85,
+   "midCorner": 87,
+   "cornerExit": 82,
+   "throttleControl": 83,
+   "racePace": 81,
+   "qualifying": 84,
+   "overtaking": 84,
+   "defending": 82,
+   "racecraft": 85,
+   "consistency": 85,
+   "wet": 81,
+   "tireManagement": 85,
+   "bikeControl": 82,
+   "aggression": 79,
+   "reaction": 82,
+   "mental": 85,
+   "clutch": 83
+  },
+  "hidden": {
+   "riskTaking": 76,
+   "lateBrakingConfidence": 76,
+   "slipstreamUsage": 81,
+   "pressureResistance": 83,
+   "startReaction": 78
+  },
+  "strengths": "Mature, tidy and improving fast.",
+  "weaknesses": "Lacks experience in close battles."
+ },
+ {
+  "id": "gasly",
+  "name": "Pierre Gasly",
+  "number": 10,
+  "nationality": "FRA",
+  "kind": "current",
+  "age": 30,
+  "team": "alpine",
+  "helmet": [
+   "#0055a4",
+   "#ffffff",
+   "#ff87bc"
+  ],
+  "styles": [
+   "Late Brake Master",
+   "Wet Master"
+  ],
+  "personality": "LATE BRAKER",
+  "attributes": {
+   "speed": 86,
+   "acceleration": 87,
+   "braking": 89,
+   "cornerEntry": 84,
+   "midCorner": 86,
+   "cornerExit": 85,
+   "throttleControl": 84,
+   "racePace": 86,
+   "qualifying": 84,
+   "overtaking": 87,
+   "defending": 85,
+   "racecraft": 84,
+   "consistency": 87,
+   "wet": 90,
+   "tireManagement": 84,
+   "bikeControl": 86,
+   "aggression": 84,
+   "reaction": 87,
+   "mental": 85,
+   "clutch": 85
+  },
+  "hidden": {
+   "riskTaking": 83,
+   "lateBrakingConfidence": 95,
+   "slipstreamUsage": 78,
+   "pressureResistance": 83,
+   "startReaction": 84
+  },
+  "strengths": "Grand Prix winner, great on the brakes.",
+  "weaknesses": "Can fade in long stints."
+ },
+ {
+  "id": "colapinto",
+  "name": "Franco Colapinto",
+  "number": 43,
+  "nationality": "ARG",
+  "kind": "current",
+  "age": 23,
+  "team": "alpine",
+  "helmet": [
+   "#74acdf",
+   "#ffffff",
+   "#f6b40e"
+  ],
+  "styles": [
+   "Aggressive Attacker"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 78,
+   "acceleration": 79,
+   "braking": 81,
+   "cornerEntry": 78,
+   "midCorner": 80,
+   "cornerExit": 80,
+   "throttleControl": 77,
+   "racePace": 80,
+   "qualifying": 79,
+   "overtaking": 83,
+   "defending": 80,
+   "racecraft": 79,
+   "consistency": 74,
+   "wet": 79,
+   "tireManagement": 76,
+   "bikeControl": 80,
+   "aggression": 85,
+   "reaction": 80,
+   "mental": 79,
+   "clutch": 79
+  },
+  "hidden": {
+   "riskTaking": 91,
+   "lateBrakingConfidence": 79,
+   "slipstreamUsage": 74,
+   "pressureResistance": 76,
+   "startReaction": 77
+  },
+  "strengths": "Brave and spectacular in traffic.",
+  "weaknesses": "Crash-prone, inconsistent."
+ },
+ {
+  "id": "perez",
+  "name": "Sergio Pérez",
+  "number": 11,
+  "nationality": "MEX",
+  "kind": "current",
+  "age": 36,
+  "team": "cadillac",
+  "helmet": [
+   "#006847",
+   "#ffffff",
+   "#ce1126"
+  ],
+  "styles": [
+   "Tire Whisperer",
+   "Defensive Master"
+  ],
+  "personality": "TIRE SAVER",
+  "attributes": {
+   "speed": 85,
+   "acceleration": 82,
+   "braking": 83,
+   "cornerEntry": 85,
+   "midCorner": 85,
+   "cornerExit": 84,
+   "throttleControl": 85,
+   "racePace": 86,
+   "qualifying": 79,
+   "overtaking": 87,
+   "defending": 88,
+   "racecraft": 84,
+   "consistency": 84,
+   "wet": 86,
+   "tireManagement": 93,
+   "bikeControl": 82,
+   "aggression": 83,
+   "reaction": 85,
+   "mental": 82,
+   "clutch": 82
+  },
+  "hidden": {
+   "riskTaking": 78,
+   "lateBrakingConfidence": 77,
+   "slipstreamUsage": 79,
+   "pressureResistance": 78,
+   "startReaction": 82
+  },
+  "strengths": "Legendary tyre management on street circuits.",
+  "weaknesses": "Qualifying."
+ },
+ {
+  "id": "bottas",
+  "name": "Valtteri Bottas",
+  "number": 77,
+  "nationality": "FIN",
+  "kind": "current",
+  "age": 37,
+  "team": "cadillac",
+  "helmet": [
+   "#ffffff",
+   "#003580",
+   "#1a1a1a"
+  ],
+  "styles": [
+   "Qualifying Ace",
+   "Smooth Operator"
+  ],
+  "personality": "SMOOTH",
+  "attributes": {
+   "speed": 82,
+   "acceleration": 84,
+   "braking": 83,
+   "cornerEntry": 83,
+   "midCorner": 86,
+   "cornerExit": 83,
+   "throttleControl": 84,
+   "racePace": 86,
+   "qualifying": 87,
+   "overtaking": 83,
+   "defending": 83,
+   "racecraft": 82,
+   "consistency": 86,
+   "wet": 82,
+   "tireManagement": 82,
+   "bikeControl": 83,
+   "aggression": 81,
+   "reaction": 85,
+   "mental": 86,
+   "clutch": 83
+  },
+  "hidden": {
+   "riskTaking": 73,
+   "lateBrakingConfidence": 81,
+   "slipstreamUsage": 78,
+   "pressureResistance": 82,
+   "startReaction": 80
+  },
+  "strengths": "10-time Grand Prix winner, quick over one lap.",
+  "weaknesses": "Too polite in wheel-to-wheel battles."
+ },
+ {
+  "id": "tsunoda",
+  "name": "Yuki Tsunoda",
+  "number": 22,
+  "nationality": "JPN",
+  "kind": "rookie",
+  "age": 26,
+  "team": null,
+  "helmet": [
+   "#ffffff",
+   "#bc002d",
+   "#1e3a8a"
+  ],
+  "styles": [
+   "Aggressive Attacker",
+   "Late Brake Master"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 80,
+   "acceleration": 83,
+   "braking": 85,
+   "cornerEntry": 83,
+   "midCorner": 84,
+   "cornerExit": 81,
+   "throttleControl": 83,
+   "racePace": 81,
+   "qualifying": 81,
+   "overtaking": 85,
+   "defending": 80,
+   "racecraft": 83,
+   "consistency": 76,
+   "wet": 84,
+   "tireManagement": 80,
+   "bikeControl": 81,
+   "aggression": 87,
+   "reaction": 83,
+   "mental": 79,
+   "clutch": 82
+  },
+  "hidden": {
+   "riskTaking": 89,
+   "lateBrakingConfidence": 90,
+   "slipstreamUsage": 78,
+   "pressureResistance": 75,
+   "startReaction": 78
+  },
+  "strengths": "Quick and bold on the brakes.",
+  "weaknesses": "Emotional under pressure."
+ },
+ {
+  "id": "zhou",
+  "name": "Zhou Guanyu",
+  "number": 24,
+  "nationality": "CHN",
+  "kind": "rookie",
+  "age": 27,
+  "team": null,
+  "helmet": [
+   "#de2910",
+   "#ffde00",
+   "#ffffff"
+  ],
+  "styles": [
+   "Smooth Operator"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 76,
+   "acceleration": 77,
+   "braking": 76,
+   "cornerEntry": 77,
+   "midCorner": 78,
+   "cornerExit": 77,
+   "throttleControl": 75,
+   "racePace": 77,
+   "qualifying": 76,
+   "overtaking": 79,
+   "defending": 77,
+   "racecraft": 77,
+   "consistency": 82,
+   "wet": 76,
+   "tireManagement": 81,
+   "bikeControl": 79,
+   "aggression": 74,
+   "reaction": 77,
+   "mental": 78,
+   "clutch": 76
+  },
+  "hidden": {
+   "riskTaking": 67,
+   "lateBrakingConfidence": 72,
+   "slipstreamUsage": 74,
+   "pressureResistance": 75,
+   "startReaction": 74
+  },
+  "strengths": "Consistent, tidy and reliable.",
+  "weaknesses": "Lacks a cutting edge."
+ },
+ {
+  "id": "doohan",
+  "name": "Jack Doohan",
+  "number": 7,
+  "nationality": "AUS",
+  "kind": "rookie",
+  "age": 23,
+  "potential": 86,
+  "team": null,
+  "helmet": [
+   "#00843d",
+   "#ffcd00",
+   "#012169"
+  ],
+  "styles": [
+   "Aggressive Attacker"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 75,
+   "acceleration": 74,
+   "braking": 77,
+   "cornerEntry": 74,
+   "midCorner": 76,
+   "cornerExit": 77,
+   "throttleControl": 75,
+   "racePace": 78,
+   "qualifying": 76,
+   "overtaking": 78,
+   "defending": 75,
+   "racecraft": 75,
+   "consistency": 73,
+   "wet": 76,
+   "tireManagement": 74,
+   "bikeControl": 77,
+   "aggression": 81,
+   "reaction": 75,
+   "mental": 74,
+   "clutch": 76
+  },
+  "hidden": {
+   "riskTaking": 86,
+   "lateBrakingConfidence": 74,
+   "slipstreamUsage": 70,
+   "pressureResistance": 71,
+   "startReaction": 72
+  },
+  "strengths": "Fast and brave.",
+  "weaknesses": "Crash-prone."
+ },
+ {
+  "id": "herta",
+  "name": "Colton Herta",
+  "number": 26,
+  "nationality": "USA",
+  "kind": "rookie",
+  "age": 26,
+  "team": null,
+  "helmet": [
+   "#ffffff",
+   "#b22234",
+   "#3c3b6e"
+  ],
+  "styles": [
+   "Late Brake Master",
+   "Qualifying Ace"
+  ],
+  "personality": "LATE BRAKER",
+  "attributes": {
+   "speed": 81,
+   "acceleration": 79,
+   "braking": 82,
+   "cornerEntry": 79,
+   "midCorner": 77,
+   "cornerExit": 78,
+   "throttleControl": 77,
+   "racePace": 79,
+   "qualifying": 82,
+   "overtaking": 82,
+   "defending": 79,
+   "racecraft": 78,
+   "consistency": 77,
+   "wet": 79,
+   "tireManagement": 80,
+   "bikeControl": 78,
+   "aggression": 80,
+   "reaction": 79,
+   "mental": 80,
+   "clutch": 78
+  },
+  "hidden": {
+   "riskTaking": 75,
+   "lateBrakingConfidence": 87,
+   "slipstreamUsage": 74,
+   "pressureResistance": 77,
+   "startReaction": 73
+  },
+  "strengths": "Proven IndyCar winner, aggressive on the brakes.",
+  "weaknesses": "Limited F1 mileage."
+ },
+ {
+  "id": "senna-1988",
+  "name": "Ayrton Senna",
+  "number": 12,
+  "nationality": "BRA",
+  "kind": "legend",
+  "version": "1988 Champion",
+  "primeYear": 1988,
+  "eraYears": "1984-1994",
+  "team": null,
+  "bike": "mp4-4",
+  "manufacturer": "mclaren",
+  "helmet": [
+   "#ffdf00",
+   "#009c3b",
+   "#002776"
+  ],
+  "livery": [
+   "#ffffff",
+   "#e10600",
+   "#111111"
+  ],
+  "styles": [
+   "Qualifying Ace",
+   "Wet Master",
+   "Aggressive Attacker"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 98,
+   "acceleration": 97,
+   "braking": 98,
+   "cornerEntry": 97,
+   "midCorner": 96,
+   "cornerExit": 98,
+   "throttleControl": 98,
+   "racePace": 98,
+   "qualifying": 98,
+   "overtaking": 98,
+   "defending": 98,
+   "racecraft": 98,
+   "consistency": 97,
+   "wet": 99,
+   "tireManagement": 96,
+   "bikeControl": 98,
+   "aggression": 98,
+   "reaction": 98,
+   "mental": 96,
+   "clutch": 98
+  },
+  "hidden": {
+   "riskTaking": 99,
+   "lateBrakingConfidence": 99,
+   "slipstreamUsage": 92,
+   "pressureResistance": 98,
+   "startReaction": 92
+  },
+  "strengths": "The ultimate qualifier and a genius in the rain.",
+  "weaknesses": "Uncompromising to a fault."
+ },
+ {
+  "id": "senna-1991",
+  "name": "Ayrton Senna",
+  "number": 1,
+  "nationality": "BRA",
+  "kind": "legend",
+  "version": "1991 Champion",
+  "primeYear": 1991,
+  "eraYears": "1984-1994",
+  "team": null,
+  "bike": "mp4-6",
+  "manufacturer": "mclaren",
+  "helmet": [
+   "#ffdf00",
+   "#009c3b",
+   "#002776"
+  ],
+  "livery": [
+   "#ffffff",
+   "#e10600",
+   "#111111"
+  ],
+  "styles": [
+   "Qualifying Ace",
+   "Wet Master",
+   "Defensive Master"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 98,
+   "acceleration": 97,
+   "braking": 96,
+   "cornerEntry": 98,
+   "midCorner": 97,
+   "cornerExit": 98,
+   "throttleControl": 98,
+   "racePace": 98,
+   "qualifying": 98,
+   "overtaking": 98,
+   "defending": 98,
+   "racecraft": 98,
+   "consistency": 97,
+   "wet": 99,
+   "tireManagement": 95,
+   "bikeControl": 98,
+   "aggression": 98,
+   "reaction": 97,
+   "mental": 98,
+   "clutch": 96
+  },
+  "hidden": {
+   "riskTaking": 99,
+   "lateBrakingConfidence": 99,
+   "slipstreamUsage": 95,
+   "pressureResistance": 99,
+   "startReaction": 92
+  },
+  "strengths": "Peak maturity: speed, racecraft and mental strength.",
+  "weaknesses": "Fierce rivalries could cloud judgement."
+ },
+ {
+  "id": "prost-1989",
+  "name": "Alain Prost",
+  "number": 2,
+  "nationality": "FRA",
+  "kind": "legend",
+  "version": "1989 Champion",
+  "primeYear": 1989,
+  "eraYears": "1980-1993",
+  "team": null,
+  "bike": "mp4-5",
+  "manufacturer": "mclaren",
+  "helmet": [
+   "#ffffff",
+   "#0055a4",
+   "#ef4135"
+  ],
+  "livery": [
+   "#ffffff",
+   "#e10600",
+   "#111111"
+  ],
+  "styles": [
+   "Smooth Operator",
+   "Tire Whisperer"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 95,
+   "acceleration": 94,
+   "braking": 95,
+   "cornerEntry": 96,
+   "midCorner": 94,
+   "cornerExit": 94,
+   "throttleControl": 94,
+   "racePace": 95,
+   "qualifying": 92,
+   "overtaking": 97,
+   "defending": 98,
+   "racecraft": 98,
+   "consistency": 98,
+   "wet": 90,
+   "tireManagement": 98,
+   "bikeControl": 96,
+   "aggression": 92,
+   "reaction": 98,
+   "mental": 98,
+   "clutch": 98
+  },
+  "hidden": {
+   "riskTaking": 84,
+   "lateBrakingConfidence": 92,
+   "slipstreamUsage": 93,
+   "pressureResistance": 99,
+   "startReaction": 95
+  },
+  "strengths": "\"The Professor\": supreme race management and tyre care.",
+  "weaknesses": "Disliked racing in heavy rain."
+ },
+ {
+  "id": "prost-1993",
+  "name": "Alain Prost",
+  "number": 2,
+  "nationality": "FRA",
+  "kind": "legend",
+  "version": "1993 Champion",
+  "primeYear": 1993,
+  "eraYears": "1980-1993",
+  "team": null,
+  "bike": "fw15c",
+  "manufacturer": "williams",
+  "helmet": [
+   "#ffffff",
+   "#0055a4",
+   "#ef4135"
+  ],
+  "livery": [
+   "#0a2d6e",
+   "#ffffff",
+   "#ffd200"
+  ],
+  "styles": [
+   "Smooth Operator",
+   "Tire Whisperer"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 95,
+   "acceleration": 96,
+   "braking": 96,
+   "cornerEntry": 95,
+   "midCorner": 96,
+   "cornerExit": 94,
+   "throttleControl": 95,
+   "racePace": 93,
+   "qualifying": 90,
+   "overtaking": 97,
+   "defending": 94,
+   "racecraft": 98,
+   "consistency": 98,
+   "wet": 90,
+   "tireManagement": 98,
+   "bikeControl": 95,
+   "aggression": 91,
+   "reaction": 96,
+   "mental": 98,
+   "clutch": 94
+  },
+  "hidden": {
+   "riskTaking": 80,
+   "lateBrakingConfidence": 93,
+   "slipstreamUsage": 92,
+   "pressureResistance": 99,
+   "startReaction": 94
+  },
+  "strengths": "Fourth title in the high-tech Williams.",
+  "weaknesses": "Avoided risk in the wet."
+ },
+ {
+  "id": "lauda-1984",
+  "name": "Niki Lauda",
+  "number": 8,
+  "nationality": "AUT",
+  "kind": "legend",
+  "version": "1984 Champion",
+  "primeYear": 1984,
+  "eraYears": "1971-1985",
+  "team": null,
+  "bike": "mp4-2",
+  "manufacturer": "mclaren",
+  "helmet": [
+   "#e10600",
+   "#ffffff",
+   "#111111"
+  ],
+  "livery": [
+   "#ffffff",
+   "#e10600",
+   "#111111"
+  ],
+  "styles": [
+   "Tire Whisperer",
+   "Smooth Operator"
+  ],
+  "personality": "TIRE SAVER",
+  "attributes": {
+   "speed": 91,
+   "acceleration": 91,
+   "braking": 94,
+   "cornerEntry": 93,
+   "midCorner": 92,
+   "cornerExit": 92,
+   "throttleControl": 94,
+   "racePace": 92,
+   "qualifying": 87,
+   "overtaking": 95,
+   "defending": 93,
+   "racecraft": 98,
+   "consistency": 98,
+   "wet": 92,
+   "tireManagement": 98,
+   "bikeControl": 93,
+   "aggression": 93,
+   "reaction": 93,
+   "mental": 98,
+   "clutch": 92
+  },
+  "hidden": {
+   "riskTaking": 83,
+   "lateBrakingConfidence": 90,
+   "slipstreamUsage": 93,
+   "pressureResistance": 99,
+   "startReaction": 87
+  },
+  "strengths": "Analytical genius, won the title by half a point.",
+  "weaknesses": "No longer the fastest qualifier."
+ },
+ {
+  "id": "piquet-1987",
+  "name": "Nelson Piquet",
+  "number": 6,
+  "nationality": "BRA",
+  "kind": "legend",
+  "version": "1987 Champion",
+  "primeYear": 1987,
+  "eraYears": "1978-1991",
+  "team": null,
+  "bike": "fw11b",
+  "manufacturer": "williams",
+  "helmet": [
+   "#ffffff",
+   "#e10600",
+   "#002776"
+  ],
+  "livery": [
+   "#0a2d6e",
+   "#ffffff",
+   "#ffd200"
+  ],
+  "styles": [
+   "Smooth Operator",
+   "Tire Whisperer"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 91,
+   "acceleration": 91,
+   "braking": 91,
+   "cornerEntry": 93,
+   "midCorner": 91,
+   "cornerExit": 90,
+   "throttleControl": 93,
+   "racePace": 91,
+   "qualifying": 92,
+   "overtaking": 93,
+   "defending": 93,
+   "racecraft": 97,
+   "consistency": 95,
+   "wet": 89,
+   "tireManagement": 97,
+   "bikeControl": 91,
+   "aggression": 90,
+   "reaction": 93,
+   "mental": 95,
+   "clutch": 89
+  },
+  "hidden": {
+   "riskTaking": 83,
+   "lateBrakingConfidence": 87,
+   "slipstreamUsage": 94,
+   "pressureResistance": 91,
+   "startReaction": 88
+  },
+  "strengths": "Cunning, consistent three-time champion.",
+  "weaknesses": "Picked his battles."
+ },
+ {
+  "id": "mansell-1992",
+  "name": "Nigel Mansell",
+  "number": 5,
+  "nationality": "GBR",
+  "kind": "legend",
+  "version": "1992 Champion",
+  "primeYear": 1992,
+  "eraYears": "1980-1995",
+  "team": null,
+  "bike": "fw14b",
+  "manufacturer": "williams",
+  "helmet": [
+   "#012169",
+   "#ffffff",
+   "#c8102e"
+  ],
+  "livery": [
+   "#0a2d6e",
+   "#ffffff",
+   "#ffd200"
+  ],
+  "styles": [
+   "Aggressive Attacker",
+   "Late Brake Master"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 98,
+   "acceleration": 97,
+   "braking": 98,
+   "cornerEntry": 95,
+   "midCorner": 94,
+   "cornerExit": 97,
+   "throttleControl": 97,
+   "racePace": 94,
+   "qualifying": 98,
+   "overtaking": 98,
+   "defending": 95,
+   "racecraft": 96,
+   "consistency": 90,
+   "wet": 96,
+   "tireManagement": 93,
+   "bikeControl": 94,
+   "aggression": 98,
+   "reaction": 94,
+   "mental": 94,
+   "clutch": 96
+  },
+  "hidden": {
+   "riskTaking": 99,
+   "lateBrakingConfidence": 99,
+   "slipstreamUsage": 93,
+   "pressureResistance": 90,
+   "startReaction": 88
+  },
+  "strengths": "\"Red Five\": brave, flat-out attacker.",
+  "weaknesses": "Tyre wear and temperament."
+ },
+ {
+  "id": "hill-1996",
+  "name": "Damon Hill",
+  "number": 5,
+  "nationality": "GBR",
+  "kind": "legend",
+  "version": "1996 Champion",
+  "primeYear": 1996,
+  "eraYears": "1993-1999",
+  "team": null,
+  "bike": "fw18",
+  "manufacturer": "williams",
+  "helmet": [
+   "#0a1f44",
+   "#ffffff",
+   "#0a1f44"
+  ],
+  "livery": [
+   "#0a2d6e",
+   "#ffffff",
+   "#ffd200"
+  ],
+  "styles": [
+   "Smooth Operator",
+   "Qualifying Ace"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 92,
+   "acceleration": 92,
+   "braking": 93,
+   "cornerEntry": 94,
+   "midCorner": 90,
+   "cornerExit": 90,
+   "throttleControl": 93,
+   "racePace": 90,
+   "qualifying": 94,
+   "overtaking": 90,
+   "defending": 92,
+   "racecraft": 91,
+   "consistency": 95,
+   "wet": 94,
+   "tireManagement": 94,
+   "bikeControl": 92,
+   "aggression": 91,
+   "reaction": 93,
+   "mental": 94,
+   "clutch": 90
+  },
+  "hidden": {
+   "riskTaking": 84,
+   "lateBrakingConfidence": 89,
+   "slipstreamUsage": 87,
+   "pressureResistance": 89,
+   "startReaction": 88
+  },
+  "strengths": "Fast and determined in a dominant car.",
+  "weaknesses": "Racecraft against the very best."
+ },
+ {
+  "id": "villeneuve-1997",
+  "name": "Jacques Villeneuve",
+  "number": 3,
+  "nationality": "CAN",
+  "kind": "legend",
+  "version": "1997 Champion",
+  "primeYear": 1997,
+  "eraYears": "1996-2006",
+  "team": null,
+  "bike": "fw19",
+  "manufacturer": "williams",
+  "helmet": [
+   "#ffffff",
+   "#1f75fe",
+   "#d52b1e"
+  ],
+  "livery": [
+   "#0a2d6e",
+   "#ffffff",
+   "#ffd200"
+  ],
+  "styles": [
+   "Aggressive Attacker",
+   "Late Brake Master"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 93,
+   "acceleration": 91,
+   "braking": 96,
+   "cornerEntry": 90,
+   "midCorner": 91,
+   "cornerExit": 90,
+   "throttleControl": 93,
+   "racePace": 93,
+   "qualifying": 92,
+   "overtaking": 95,
+   "defending": 90,
+   "racecraft": 90,
+   "consistency": 90,
+   "wet": 91,
+   "tireManagement": 88,
+   "bikeControl": 91,
+   "aggression": 95,
+   "reaction": 92,
+   "mental": 91,
+   "clutch": 92
+  },
+  "hidden": {
+   "riskTaking": 97,
+   "lateBrakingConfidence": 99,
+   "slipstreamUsage": 86,
+   "pressureResistance": 86,
+   "startReaction": 89
+  },
+  "strengths": "Bold overtaker, won a title-deciding duel.",
+  "weaknesses": "Erratic consistency."
+ },
+ {
+  "id": "schumacher-1994",
+  "name": "Michael Schumacher",
+  "number": 5,
+  "nationality": "GER",
+  "kind": "legend",
+  "version": "1994 Champion",
+  "primeYear": 1994,
+  "eraYears": "1991-2012",
+  "team": null,
+  "bike": "b194",
+  "manufacturer": "alpine",
+  "helmet": [
+   "#e10600",
+   "#ffffff",
+   "#ffd400"
+  ],
+  "livery": [
+   "#41a6f1",
+   "#ffd400",
+   "#16a34a"
+  ],
+  "styles": [
+   "Aggressive Attacker",
+   "Wet Master",
+   "Qualifying Ace"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 95,
+   "acceleration": 94,
+   "braking": 94,
+   "cornerEntry": 94,
+   "midCorner": 95,
+   "cornerExit": 95,
+   "throttleControl": 94,
+   "racePace": 96,
+   "qualifying": 98,
+   "overtaking": 96,
+   "defending": 94,
+   "racecraft": 93,
+   "consistency": 96,
+   "wet": 98,
+   "tireManagement": 97,
+   "bikeControl": 98,
+   "aggression": 98,
+   "reaction": 95,
+   "mental": 98,
+   "clutch": 93
+  },
+  "hidden": {
+   "riskTaking": 99,
+   "lateBrakingConfidence": 97,
+   "slipstreamUsage": 88,
+   "pressureResistance": 99,
+   "startReaction": 89
+  },
+  "strengths": "First title: ferocious speed and car control.",
+  "weaknesses": "Ruthlessness in close battles."
+ },
+ {
+  "id": "schumacher-2004",
+  "name": "Michael Schumacher",
+  "number": 1,
+  "nationality": "GER",
+  "kind": "legend",
+  "version": "2004 Champion",
+  "primeYear": 2004,
+  "eraYears": "1991-2012",
+  "team": null,
+  "bike": "f2004",
+  "manufacturer": "ferrari",
+  "helmet": [
+   "#e10600",
+   "#ffffff",
+   "#ffd400"
+  ],
+  "livery": [
+   "#e8002d",
+   "#ffffff",
+   "#111111"
+  ],
+  "styles": [
+   "Smooth Operator",
+   "Wet Master",
+   "Tire Whisperer"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 98,
+   "acceleration": 96,
+   "braking": 98,
+   "cornerEntry": 98,
+   "midCorner": 98,
+   "cornerExit": 97,
+   "throttleControl": 98,
+   "racePace": 98,
+   "qualifying": 98,
+   "overtaking": 98,
+   "defending": 98,
+   "racecraft": 98,
+   "consistency": 99,
+   "wet": 98,
+   "tireManagement": 98,
+   "bikeControl": 98,
+   "aggression": 98,
+   "reaction": 98,
+   "mental": 98,
+   "clutch": 98
+  },
+  "hidden": {
+   "riskTaking": 99,
+   "lateBrakingConfidence": 93,
+   "slipstreamUsage": 93,
+   "pressureResistance": 99,
+   "startReaction": 93
+  },
+  "strengths": "Seventh title: metronomic qualifying-lap pace for whole stints.",
+  "weaknesses": "Virtually none in this era."
+ },
+ {
+  "id": "hakkinen-1998",
+  "name": "Mika Häkkinen",
+  "number": 8,
+  "nationality": "FIN",
+  "kind": "legend",
+  "version": "1998 Champion",
+  "primeYear": 1998,
+  "eraYears": "1991-2001",
+  "team": null,
+  "bike": "mp4-13",
+  "manufacturer": "mclaren",
+  "helmet": [
+   "#ffffff",
+   "#003580",
+   "#1a1a1a"
+  ],
+  "livery": [
+   "#c0c0c0",
+   "#111111",
+   "#e10600"
+  ],
+  "styles": [
+   "Qualifying Ace",
+   "Late Brake Master"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 92,
+   "acceleration": 96,
+   "braking": 98,
+   "cornerEntry": 95,
+   "midCorner": 95,
+   "cornerExit": 95,
+   "throttleControl": 93,
+   "racePace": 95,
+   "qualifying": 98,
+   "overtaking": 93,
+   "defending": 96,
+   "racecraft": 94,
+   "consistency": 96,
+   "wet": 94,
+   "tireManagement": 92,
+   "bikeControl": 96,
+   "aggression": 95,
+   "reaction": 95,
+   "mental": 98,
+   "clutch": 94
+  },
+  "hidden": {
+   "riskTaking": 93,
+   "lateBrakingConfidence": 99,
+   "slipstreamUsage": 89,
+   "pressureResistance": 95,
+   "startReaction": 93
+  },
+  "strengths": "\"The Flying Finn\": phenomenal one-lap pace.",
+  "weaknesses": "Occasional lapses under pressure."
+ },
+ {
+  "id": "alonso-2005",
+  "name": "Fernando Alonso",
+  "number": 5,
+  "nationality": "ESP",
+  "kind": "legend",
+  "version": "2005 Champion",
+  "primeYear": 2005,
+  "eraYears": "2001-2026",
+  "team": null,
+  "bike": "r25",
+  "manufacturer": "alpine",
+  "helmet": [
+   "#c60b1e",
+   "#ffc400",
+   "#0055a4"
+  ],
+  "livery": [
+   "#1f4fbf",
+   "#ffd400",
+   "#ffffff"
+  ],
+  "styles": [
+   "Launch Specialist",
+   "Defensive Master",
+   "Aggressive Attacker"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 97,
+   "acceleration": 96,
+   "braking": 95,
+   "cornerEntry": 97,
+   "midCorner": 97,
+   "cornerExit": 96,
+   "throttleControl": 96,
+   "racePace": 95,
+   "qualifying": 95,
+   "overtaking": 98,
+   "defending": 98,
+   "racecraft": 98,
+   "consistency": 95,
+   "wet": 95,
+   "tireManagement": 95,
+   "bikeControl": 95,
+   "aggression": 98,
+   "reaction": 98,
+   "mental": 98,
+   "clutch": 98
+  },
+  "hidden": {
+   "riskTaking": 99,
+   "lateBrakingConfidence": 91,
+   "slipstreamUsage": 95,
+   "pressureResistance": 99,
+   "startReaction": 99
+  },
+  "strengths": "Youngest champion of his era: starts and racecraft.",
+  "weaknesses": "Can be impatient."
+ },
+ {
+  "id": "raikkonen-2007",
+  "name": "Kimi Räikkönen",
+  "number": 6,
+  "nationality": "FIN",
+  "kind": "legend",
+  "version": "2007 Champion",
+  "primeYear": 2007,
+  "eraYears": "2001-2021",
+  "team": null,
+  "bike": "f2007",
+  "manufacturer": "ferrari",
+  "helmet": [
+   "#ffffff",
+   "#003580",
+   "#111111"
+  ],
+  "livery": [
+   "#e8002d",
+   "#ffffff",
+   "#111111"
+  ],
+  "styles": [
+   "Smooth Operator",
+   "Tire Whisperer"
+  ],
+  "personality": "SMOOTH",
+  "attributes": {
+   "speed": 95,
+   "acceleration": 94,
+   "braking": 93,
+   "cornerEntry": 92,
+   "midCorner": 98,
+   "cornerExit": 92,
+   "throttleControl": 95,
+   "racePace": 98,
+   "qualifying": 93,
+   "overtaking": 93,
+   "defending": 95,
+   "racecraft": 94,
+   "consistency": 96,
+   "wet": 95,
+   "tireManagement": 98,
+   "bikeControl": 95,
+   "aggression": 95,
+   "reaction": 95,
+   "mental": 96,
+   "clutch": 95
+  },
+  "hidden": {
+   "riskTaking": 90,
+   "lateBrakingConfidence": 88,
+   "slipstreamUsage": 90,
+   "pressureResistance": 99,
+   "startReaction": 90
+  },
+  "strengths": "\"The Iceman\": raw speed with calm nerves.",
+  "weaknesses": "Qualifying was not always his forte."
+ },
+ {
+  "id": "hamilton-2008",
+  "name": "Lewis Hamilton",
+  "number": 22,
+  "nationality": "GBR",
+  "kind": "legend",
+  "version": "2008 Champion",
+  "primeYear": 2008,
+  "eraYears": "2007-2026",
+  "team": null,
+  "bike": "mp4-23",
+  "manufacturer": "mclaren",
+  "helmet": [
+   "#ffde00",
+   "#16a34a",
+   "#ffffff"
+  ],
+  "livery": [
+   "#c0c0c0",
+   "#111111",
+   "#e10600"
+  ],
+  "styles": [
+   "Aggressive Attacker",
+   "Wet Master",
+   "Late Brake Master"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 96,
+   "acceleration": 94,
+   "braking": 98,
+   "cornerEntry": 93,
+   "midCorner": 94,
+   "cornerExit": 95,
+   "throttleControl": 96,
+   "racePace": 93,
+   "qualifying": 98,
+   "overtaking": 98,
+   "defending": 93,
+   "racecraft": 94,
+   "consistency": 92,
+   "wet": 98,
+   "tireManagement": 92,
+   "bikeControl": 96,
+   "aggression": 98,
+   "reaction": 96,
+   "mental": 94,
+   "clutch": 94
+  },
+  "hidden": {
+   "riskTaking": 99,
+   "lateBrakingConfidence": 99,
+   "slipstreamUsage": 92,
+   "pressureResistance": 89,
+   "startReaction": 93
+  },
+  "strengths": "Breathtaking first-title attacker, wet genius.",
+  "weaknesses": "Youthful risk taking."
+ },
+ {
+  "id": "hamilton-2020",
+  "name": "Lewis Hamilton",
+  "number": 44,
+  "nationality": "GBR",
+  "kind": "legend",
+  "version": "2020 Champion",
+  "primeYear": 2020,
+  "eraYears": "2007-2026",
+  "team": null,
+  "bike": "w11",
+  "manufacturer": "mercedes",
+  "helmet": [
+   "#ffde00",
+   "#a0a0a0",
+   "#7b00ff"
+  ],
+  "livery": [
+   "#111111",
+   "#00d2be",
+   "#c0c0c0"
+  ],
+  "styles": [
+   "Smooth Operator",
+   "Tire Whisperer",
+   "Wet Master"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 96,
+   "acceleration": 98,
+   "braking": 97,
+   "cornerEntry": 98,
+   "midCorner": 96,
+   "cornerExit": 98,
+   "throttleControl": 97,
+   "racePace": 97,
+   "qualifying": 98,
+   "overtaking": 98,
+   "defending": 97,
+   "racecraft": 98,
+   "consistency": 98,
+   "wet": 98,
+   "tireManagement": 99,
+   "bikeControl": 98,
+   "aggression": 98,
+   "reaction": 97,
+   "mental": 98,
+   "clutch": 98
+  },
+  "hidden": {
+   "riskTaking": 92,
+   "lateBrakingConfidence": 92,
+   "slipstreamUsage": 93,
+   "pressureResistance": 99,
+   "startReaction": 94
+  },
+  "strengths": "Seventh title: complete, flawless driver.",
+  "weaknesses": "Virtually none."
+ },
+ {
+  "id": "button-2009",
+  "name": "Jenson Button",
+  "number": 22,
+  "nationality": "GBR",
+  "kind": "legend",
+  "version": "2009 Champion",
+  "primeYear": 2009,
+  "eraYears": "2000-2017",
+  "team": null,
+  "bike": "bgp001",
+  "manufacturer": "mercedes",
+  "helmet": [
+   "#ffffff",
+   "#d5ff00",
+   "#012169"
+  ],
+  "livery": [
+   "#ffffff",
+   "#d5ff00",
+   "#111111"
+  ],
+  "styles": [
+   "Smooth Operator",
+   "Tire Whisperer",
+   "Wet Master"
+  ],
+  "personality": "SMOOTH",
+  "attributes": {
+   "speed": 94,
+   "acceleration": 92,
+   "braking": 91,
+   "cornerEntry": 94,
+   "midCorner": 97,
+   "cornerExit": 91,
+   "throttleControl": 91,
+   "racePace": 90,
+   "qualifying": 88,
+   "overtaking": 94,
+   "defending": 92,
+   "racecraft": 93,
+   "consistency": 97,
+   "wet": 98,
+   "tireManagement": 98,
+   "bikeControl": 91,
+   "aggression": 88,
+   "reaction": 92,
+   "mental": 92,
+   "clutch": 90
+  },
+  "hidden": {
+   "riskTaking": 78,
+   "lateBrakingConfidence": 87,
+   "slipstreamUsage": 87,
+   "pressureResistance": 87,
+   "startReaction": 88
+  },
+  "strengths": "Silky smooth, magic in mixed conditions.",
+  "weaknesses": "Struggled when the car did not suit him."
+ },
+ {
+  "id": "vettel-2013",
+  "name": "Sebastian Vettel",
+  "number": 1,
+  "nationality": "GER",
+  "kind": "legend",
+  "version": "2013 Champion",
+  "primeYear": 2013,
+  "eraYears": "2007-2022",
+  "team": null,
+  "bike": "rb9",
+  "manufacturer": "redbull",
+  "helmet": [
+   "#ffffff",
+   "#e10600",
+   "#ffd400"
+  ],
+  "livery": [
+   "#1e3a8a",
+   "#e10600",
+   "#ffcc00"
+  ],
+  "styles": [
+   "Qualifying Ace",
+   "Launch Specialist"
+  ],
+  "personality": "QUALIFYING SPECIALIST",
+  "attributes": {
+   "speed": 96,
+   "acceleration": 94,
+   "braking": 94,
+   "cornerEntry": 97,
+   "midCorner": 97,
+   "cornerExit": 94,
+   "throttleControl": 96,
+   "racePace": 98,
+   "qualifying": 98,
+   "overtaking": 95,
+   "defending": 93,
+   "racecraft": 95,
+   "consistency": 98,
+   "wet": 97,
+   "tireManagement": 97,
+   "bikeControl": 95,
+   "aggression": 96,
+   "reaction": 94,
+   "mental": 95,
+   "clutch": 98
+  },
+  "hidden": {
+   "riskTaking": 93,
+   "lateBrakingConfidence": 90,
+   "slipstreamUsage": 92,
+   "pressureResistance": 97,
+   "startReaction": 97
+  },
+  "strengths": "Nine wins in a row: unbeatable from the front.",
+  "weaknesses": "Less convincing fighting from the back."
+ },
+ {
+  "id": "rosberg-2016",
+  "name": "Nico Rosberg",
+  "number": 6,
+  "nationality": "GER",
+  "kind": "legend",
+  "version": "2016 Champion",
+  "primeYear": 2016,
+  "eraYears": "2006-2016",
+  "team": null,
+  "bike": "w07",
+  "manufacturer": "mercedes",
+  "helmet": [
+   "#ffffff",
+   "#00d2be",
+   "#1a1a1a"
+  ],
+  "livery": [
+   "#c0c0c0",
+   "#00d2be",
+   "#111111"
+  ],
+  "styles": [
+   "Qualifying Ace",
+   "Smooth Operator"
+  ],
+  "personality": "CALCULATED",
+  "attributes": {
+   "speed": 92,
+   "acceleration": 92,
+   "braking": 92,
+   "cornerEntry": 91,
+   "midCorner": 91,
+   "cornerExit": 93,
+   "throttleControl": 91,
+   "racePace": 92,
+   "qualifying": 97,
+   "overtaking": 94,
+   "defending": 93,
+   "racecraft": 94,
+   "consistency": 98,
+   "wet": 92,
+   "tireManagement": 92,
+   "bikeControl": 92,
+   "aggression": 93,
+   "reaction": 93,
+   "mental": 97,
+   "clutch": 91
+  },
+  "hidden": {
+   "riskTaking": 86,
+   "lateBrakingConfidence": 87,
+   "slipstreamUsage": 91,
+   "pressureResistance": 93,
+   "startReaction": 89
+  },
+  "strengths": "Meticulous, mentally strong title winner.",
+  "weaknesses": "Wheel-to-wheel racecraft."
+ },
+ {
+  "id": "verstappen-2023",
+  "name": "Max Verstappen",
+  "number": 1,
+  "nationality": "NED",
+  "kind": "legend",
+  "version": "2023 Champion",
+  "primeYear": 2023,
+  "eraYears": "2015-2026",
+  "team": null,
+  "bike": "rb19",
+  "manufacturer": "redbull",
+  "helmet": [
+   "#ff6600",
+   "#1e3a8a",
+   "#ffffff"
+  ],
+  "livery": [
+   "#1e3a8a",
+   "#e10600",
+   "#ffcc00"
+  ],
+  "styles": [
+   "Aggressive Attacker",
+   "Wet Master",
+   "Tire Whisperer"
+  ],
+  "personality": "AGGRESSIVE",
+  "attributes": {
+   "speed": 96,
+   "acceleration": 97,
+   "braking": 98,
+   "cornerEntry": 98,
+   "midCorner": 98,
+   "cornerExit": 98,
+   "throttleControl": 98,
+   "racePace": 96,
+   "qualifying": 98,
+   "overtaking": 98,
+   "defending": 98,
+   "racecraft": 98,
+   "consistency": 98,
+   "wet": 99,
+   "tireManagement": 98,
+   "bikeControl": 98,
+   "aggression": 98,
+   "reaction": 98,
+   "mental": 98,
+   "clutch": 98
+  },
+  "hidden": {
+   "riskTaking": 99,
+   "lateBrakingConfidence": 99,
+   "slipstreamUsage": 92,
+   "pressureResistance": 99,
+   "startReaction": 92
+  },
+  "strengths": "19 wins in a season: total domination.",
+  "weaknesses": "None in this form."
+ },
+ {
+  "id": "norris-2025",
+  "name": "Lando Norris",
+  "number": 4,
+  "nationality": "GBR",
+  "kind": "legend",
+  "version": "2025 Champion",
+  "primeYear": 2025,
+  "eraYears": "2019-2026",
+  "team": null,
+  "bike": "mcl39",
+  "manufacturer": "mclaren",
+  "helmet": [
+   "#d4ff00",
+   "#1a1a1a",
+   "#ff8000"
+  ],
+  "livery": [
+   "#ff8000",
+   "#1b1b1b",
+   "#47c7fc"
+  ],
+  "styles": [
+   "Qualifying Ace",
+   "Smooth Operator"
+  ],
+  "personality": "SMOOTH",
+  "attributes": {
+   "speed": 95,
+   "acceleration": 92,
+   "braking": 95,
+   "cornerEntry": 94,
+   "midCorner": 96,
+   "cornerExit": 92,
+   "throttleControl": 94,
+   "racePace": 93,
+   "qualifying": 98,
+   "overtaking": 93,
+   "defending": 89,
+   "racecraft": 93,
+   "consistency": 95,
+   "wet": 93,
+   "tireManagement": 93,
+   "bikeControl": 94,
+   "aggression": 92,
+   "reaction": 93,
+   "mental": 93,
+   "clutch": 95
+  },
+  "hidden": {
+   "riskTaking": 87,
+   "lateBrakingConfidence": 95,
+   "slipstreamUsage": 89,
+   "pressureResistance": 87,
+   "startReaction": 88
+  },
+  "strengths": "First world title in the dominant MCL39.",
+  "weaknesses": "Starts."
+ }
+]
