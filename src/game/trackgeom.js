@@ -57,12 +57,19 @@ export function buildTrackGeometry(def, ds = 2) {
   // shift so start line (sample 0) is at origin
   const ox = x[0], oz = z[0];
   for (let i = 0; i < N; i++) { x[i] -= ox; z[i] -= oz; }
-  // elevation: smooth periodic profile, flat-ish around start/finish
+  // keep distinct sections of road apart: simplified real outlines can pull neighbouring roads together (Baku's
+  // dual-carriageway between T2/T3 and T15/T16 is ~19 m centre-to-centre in reality but collapsed to <1 m), which made
+  // one road's barriers and verges sit on the other. Push near-parallel non-local sections to >= 2*hw + SEP_GAP.
+  separateSections(x, z, N, ds, def.width / 2);
+  // elevation: a smooth field over the GROUND (x, z), not along the lap, so roads that run side by side always share
+  // the same height (the old per-lap profile put adjacent sections metres apart -> terrain/verges of one covered the other)
   const rnd = mulberry(hash(def.id));
-  const harm = [1, 2, 3, 5].map(k => ({ k, a: rnd() * (1 / k), p: rnd() * Math.PI * 2 }));
+  const waves = [0, 1, 2, 3].map(k => { const a = rnd() * Math.PI * 2, lam = [2200, 1300, 800, 520][k]; return { kx: Math.cos(a) / lam * 2 * Math.PI, kz: Math.sin(a) / lam * 2 * Math.PI, a: 1 / (k + 1), p: rnd() * Math.PI * 2 }; });
   let ymin = 1e9, ymax = -1e9; const raw = new Float32Array(N);
-  for (let i = 0; i < N; i++) { let v = 0; for (const h of harm) v += h.a * Math.sin(2 * Math.PI * h.k * i / N + h.p); raw[i] = v; ymin = Math.min(ymin, v); ymax = Math.max(ymax, v); }
+  for (let i = 0; i < N; i++) { let v = 0; for (const w of waves) v += w.a * Math.sin(x[i] * w.kx + z[i] * w.kz + w.p); raw[i] = v; ymin = Math.min(ymin, v); ymax = Math.max(ymax, v); }
   for (let i = 0; i < N; i++) y[i] = ((raw[i] - ymin) / (ymax - ymin || 1)) * (def.elevation || 0);
+  // genuine crossovers (Suzuka's figure-eight): the later section is carried over on a bridge with smooth ramps
+  geo_bridges(x, z, y, N, ds, def.width / 2);
   // tangents
   const tx = new Float32Array(N), tz = new Float32Array(N), rx = new Float32Array(N), rz = new Float32Array(N), heading = new Float32Array(N);
   for (let i = 0; i < N; i++) {
@@ -74,7 +81,94 @@ export function buildTrackGeometry(def, ds = 2) {
   const halfW = def.width / 2;
   const geo = { def, N, ds, L, x, y, z, tx, tz, rx, rz, heading, kappa, halfW };
   computeRacingLine(geo);
+  computeClearance(geo);
   return geo;
+}
+
+// ---- section separation & bridges ----
+function separateSections(x, z, N, ds, hw) {
+  const MIN = 2 * hw + 3.2, ARC = 120 / ds, H = 30;
+  for (let it = 0; it < 30; it++) {
+    const hash = new Map();
+    for (let i = 0; i < N; i++) { const k = Math.floor(x[i] / H) + ',' + Math.floor(z[i] / H); let l = hash.get(k); if (!l) hash.set(k, l = []); l.push(i); }
+    const px = new Float32Array(N), pz = new Float32Array(N); let any = false;
+    for (let i = 0; i < N; i++) {
+      const a = (i - 1 + N) % N, b = (i + 1) % N; let tx = x[b] - x[a], tz = z[b] - z[a]; const tl = Math.hypot(tx, tz) || 1; tx /= tl; tz /= tl;
+      const gx = Math.floor(x[i] / H), gz = Math.floor(z[i] / H);
+      for (let u = -1; u <= 1; u++) for (let v = -1; v <= 1; v++) { const l = hash.get((gx + u) + ',' + (gz + v)); if (!l) continue; for (const j of l) {
+        const arc = Math.min(Math.abs(i - j), N - Math.abs(i - j)); if (arc < ARC) continue;
+        const dx = x[i] - x[j], dz = z[i] - z[j], d = Math.hypot(dx, dz); if (d >= MIN || d < 1e-6 && false) continue;
+        const a2 = (j - 1 + N) % N, b2 = (j + 1) % N; let ux = x[b2] - x[a2], uz = z[b2] - z[a2]; const ul = Math.hypot(ux, uz) || 1;
+        if (Math.abs(tx * ux / ul + tz * uz / ul) < 0.7) continue; // crossing, not side by side -> bridge handles it
+        // push i away from j along i's normal (perpendicular component of the separation)
+        let nx = -tz, nz = tx; let side = Math.sign(dx * nx + dz * nz) || 1;
+        const push = (MIN - d) * 0.5 * 0.5; px[i] += nx * side * push; pz[i] += nz * side * push; any = true;
+      } }
+    }
+    if (!any) break;
+    // smooth the displacement so the roads bend apart gently
+    for (let pass = 0; pass < 6; pass++) { const qx = Float32Array.from(px), qz = Float32Array.from(pz); for (let i = 0; i < N; i++) { let sx = 0, sz = 0; for (let k = -6; k <= 6; k++) { sx += qx[(i + k + N) % N]; sz += qz[(i + k + N) % N]; } px[i] = Math.abs(qx[i]) > Math.abs(sx / 13) ? qx[i] * 0.5 + sx / 26 : sx / 13; pz[i] = Math.abs(qz[i]) > Math.abs(sz / 13) ? qz[i] * 0.5 + sz / 26 : sz / 13; } }
+    for (let i = 0; i < N; i++) { x[i] += px[i]; z[i] += pz[i]; }
+  }
+}
+export const BRIDGE_CLEAR = 8;
+function geo_bridges(x, z, y, N, ds, hw) {
+  const R = 2 * hw + 8, ARC = 120 / ds, RAMP = Math.round(170 / ds), lift = new Float32Array(N);
+  for (let i = 0; i < N; i += 1) for (let j = i + ARC; j < N; j += 1) {
+    if (N - (j - i) < ARC) continue;
+    const d = Math.hypot(x[i] - x[j], z[i] - z[j]); if (d > R) continue;
+    const ti = [x[(i + 1) % N] - x[(i - 1 + N) % N], z[(i + 1) % N] - z[(i - 1 + N) % N]], tj = [x[(j + 1) % N] - x[(j - 1 + N) % N], z[(j + 1) % N] - z[(j - 1 + N) % N]];
+    const c = Math.abs(ti[0] * tj[0] + ti[1] * tj[1]) / (Math.hypot(...ti) * Math.hypot(...tj) || 1); if (c > 0.7) continue;
+    for (let k = -RAMP; k <= RAMP; k++) { const w = 0.5 + 0.5 * Math.cos(Math.PI * Math.max(0, Math.abs(k) - 20) / (RAMP - 20)); const m = (j + k + N) % N; lift[m] = Math.max(lift[m], (Math.abs(k) <= 20 ? 1 : w) * (y[i] - y[j] + BRIDGE_CLEAR)); }
+  }
+  for (let i = 0; i < N; i++) y[i] += Math.max(0, lift[i]);
+}
+
+// ---- trackside clearance ----
+// Real circuit outlines run parallel to themselves (Monaco, Baku, Montreal, Shanghai T1-T2, Suzuka hairpin...) and the
+// inside of tight hairpins is closer to the centreline than the generic barrier offset. For every sample and side we find
+// how far out a barrier can stand before it would touch ANY road surface (other sections included; sections > BRIDGE_DY
+// higher/lower are a bridge and ignored). Result (positive metres from the centreline):
+//   geo.wallR[i] / geo.wallL[i]  barrier offset (also the collision limit used by the race logic — visible == solid)
+//   geo.clearAt(x, z, y?)        distance from a world point to the nearest road EDGE (negative = on the road)
+export const WALL_GAP = 21, WALL_MARGIN = 1.6, WALL_MIN = 1.2, BRIDGE_DY = 4.5;
+export function computeClearance(geo) {
+  const { N, x, z, y, rx, rz, halfW: hw } = geo;
+  const H = 24, hash = new Map();
+  for (let i = 0; i < N; i++) { const k = Math.floor(x[i] / H) + ',' + Math.floor(z[i] / H); let l = hash.get(k); if (!l) hash.set(k, l = []); l.push(i); }
+  // nearest centreline distance from (px,pz) among samples at a similar height; search radius in cells
+  const nearestD = (px, pz, py, rad = 2) => {
+    const gx = Math.floor(px / H), gz = Math.floor(pz / H); let bd = 1e18;
+    for (let a = -rad; a <= rad; a++) for (let b = -rad; b <= rad; b++) { const l = hash.get((gx + a) + ',' + (gz + b)); if (!l) continue; for (const j of l) { if (py !== undefined && Math.abs(y[j] - py) > BRIDGE_DY) continue; const dd = (x[j] - px) ** 2 + (z[j] - pz) ** 2; if (dd < bd) bd = dd; } }
+    return Math.sqrt(bd);
+  };
+  geo.clearAt = (px, pz, py) => nearestD(px, pz, py, 3) - hw;
+  const maxD = hw + WALL_GAP;
+  const sideArr = (side) => {
+    const w = new Float32Array(N);
+    for (let i = 0; i < N; i++) {
+      let d = hw + WALL_MIN, ok = hw + WALL_MIN;
+      for (; d <= maxD + 1e-6; d += 0.5) {
+        const px = x[i] + rx[i] * d * side, pz = z[i] + rz[i] * d * side;
+        // own sample is exactly d away; anything closer than hw+margin is another piece of road (or the inside of a hairpin)
+        if (nearestD(px, pz, y[i]) < Math.min(d, hw + WALL_MARGIN) - 0.05) break;
+        ok = d;
+      }
+      w[i] = ok;
+    }
+    // barriers are built every 3 samples: take a windowed minimum so no segment between vertices cuts a corner, then ease
+    const m = new Float32Array(N);
+    for (let i = 0; i < N; i++) { let v = 1e9; for (let k = -4; k <= 4; k++) v = Math.min(v, w[(i + k + N) % N]); m[i] = v; }
+    const sm = smooth(m, 2, 1);
+    for (let i = 0; i < N; i++) sm[i] = Math.max(hw + WALL_MIN, Math.min(sm[i], m[i]));
+    return sm;
+  };
+  geo.wallR = sideArr(1); geo.wallL = sideArr(-1);
+  // where even the minimum offset still lies within ~1 m of another piece of road (apex of the tightest hairpins) no
+  // barrier is drawn; the limit there is the invisible track edge (nothing visible can be driven through)
+  const vis = (w, side) => { const v = new Uint8Array(N); for (let i = 0; i < N; i++) { const px = x[i] + rx[i] * w[i] * side, pz = z[i] + rz[i] * w[i] * side; v[i] = nearestD(px, pz, y[i]) - hw >= 1.15 ? 1 : 0; } const o = Uint8Array.from(v); for (let i = 0; i < N; i++) if (!v[i]) for (let k = -2; k <= 2; k++) o[(i + k + N) % N] = 0; return o; };
+  geo.wallVisR = vis(geo.wallR, 1); geo.wallVisL = vis(geo.wallL, -1);
+  geo.wallAt = (i, side) => (side >= 0 ? geo.wallR : geo.wallL)[((i % N) + N) % N];
 }
 
 export function curvatureOf(x, z, N, ds, k = 3) {

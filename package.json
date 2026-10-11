@@ -10,7 +10,11 @@
     "simulate": "node tools/simulate.mjs",
     "test:e2e": "node tests/e2e.mjs",
     "test:modes": "node tests/modes.mjs",
-    "test:online": "node tests/online.mjs"
+    "test:online": "node tests/online.mjs",
+    "test:tracks": "node tests/trackcheck.mjs --shots",
+    "test:walls": "node tests/walls.mjs",
+    "test:rules": "node tests/f1-rules.mjs",
+    "test:gameplay": "node tests/gameplay.mjs"
   },
   "dependencies": {
     "peerjs": "^1.5.5",

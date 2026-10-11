@@ -69,7 +69,7 @@ export class Race {
       return e;
     });
     this.player = this.entrants.find(e => e.isPlayer) || null;
-    this.wallD = this.geo.halfW + 21;
+    this.wallD = this.geo.halfW + 21; // legacy max; the real per-sample, per-side barrier is geo.wallR / geo.wallL (same as rendered)
   }
 
   recompute(e) {
@@ -132,9 +132,10 @@ export class Race {
       // online: bikes owned by the other device (or the host's AI on the guest) are driven by the network buffer
       if (e.remote) { this.remoteApply(e, dt); this.timing(e); continue; }
       if (e.finished && e.coast === undefined) e.coast = 0;
+      // pit request is accepted any time (also while still on the grid); it is acted on at the next crossing of the line
+      if (e.isPlayer && input && input.pit && !e.finished && !e.pitting) { e.pitReq = !e.pitReq; this.events.push({ type: 'pitReq', e, on: e.pitReq }); }
       if (!e.started) { if (raceT >= e.startDelay && (!e.isPlayer || this.ctl.auto || this.autopilot || (input && input.throttle > 0.2) || this.spectator)) e.started = true; else { e.rpm = e.isPlayer && input && input.throttle > 0.2 ? 11000 : 6000 + Math.sin(this.t * 9 + e.idx) * 900; continue; } }
       if (e.pitting) { this.stepPit(e, dt); continue; }
-      if (e.isPlayer && input && input.pit && !e.finished) { e.pitReq = !e.pitReq; this.events.push({ type: 'pitReq', e, on: e.pitReq }); }
       if (e.isPlayer && !this.autopilot) this.stepPlayer(e, dt, input || {}, raceT);
       else {
         if (this.lodS !== null && !e.isPlayer && raceT > 5) {
@@ -158,7 +159,7 @@ export class Race {
     if (WEATHER[this.weather || 'SUNNY'].wet > 0) return autoTire(this.weather, this.track);
     const left = this.laps - e.lap, frac = left / this.laps;
     let t = frac > 0.45 ? 'HARD' : frac > 0.22 ? 'MEDIUM' : 'SOFT';
-    if (this.mandatoryStop && !e.compounds.some(c => c !== e.tire && TIRES[c].dryCompound) && t === e.tire) t = e.tire === 'HARD' ? 'MEDIUM' : 'HARD';
+    if (!e.compounds.some(c => c !== e.tire && TIRES[c].dryCompound) && t === e.tire) t = e.tire === 'HARD' ? 'MEDIUM' : 'HARD';
     return t;
   }
   enterPit(e) {
@@ -167,7 +168,7 @@ export class Race {
     // pit-lane time loss (speed limit through the lane) + stationary time (~2-3 s tyre change)
     e.pitT = this.pitLossT - 2.4 + (2.0 + this.rand() * 1.0 + (this.rand() < 0.04 ? 3 + this.rand() * 4 : 0));
     e.pitTotal = e.pitT; e.v = 0; e.psi = 0; e.lean = 0; e.throttle = 0; e.brake = 0;
-    e.pitSide = this.track.pitSide || 1; e.d = e.pitSide * (this.geo.halfW + 3.5);
+    e.pitSide = this.track.pitSide || this.infield(); e.d = e.pitSide * (this.geo.halfW + 3.5);
     this.events.push({ type: 'pit', e, tire: e.pitNext });
   }
   stepPit(e, dt) {
@@ -351,12 +352,14 @@ export class Race {
     e.tactical += (target - e.tactical) * 0.5;
   }
 
+  infield() { if (this._inf === undefined) { let k = 0; for (let i = 0; i < this.geo.N; i++) k += this.geo.kappa[i]; this._inf = k > 0 ? 1 : -1; } return this._inf; } // pit building side (same rule as trackScene)
+  wallIdx(s) { const N = this.geo.N; return ((Math.round(s / this.geo.ds) % N) + N) % N; }
   // ---------------- player ----------------
   stepPlayer(e, dt, input, raceT) {
     const geo = this.geo, N = geo.N, p = e.eff, ctl = this.ctl;
     if (e.crashT > 0) {
       e.crashT -= dt; e.v = Math.max(0, e.v - 11 * dt); e.s += e.v * dt; e.d += e.v * Math.sin(e.psi) * dt * 0.6;
-      e.d = Math.max(-this.wallD + 0.5, Math.min(this.wallD - 0.5, e.d));
+      { const wi = this.wallIdx(e.s); e.d = Math.max(-geo.wallL[wi] + 0.5, Math.min(geo.wallR[wi] - 0.5, e.d)); }
       if (e.crashT <= 0 || (input.reset && e.crashT < 1.6)) this.resetPlayer(e);
       return;
     }
@@ -447,8 +450,9 @@ export class Race {
     e.s += ds * dt;
     e.d += e.v * Math.sin(e.psi) * dt;
     // barrier
-    if (Math.abs(e.d) > this.wallD - 0.6) {
-      e.d = Math.sign(e.d) * (this.wallD - 0.6);
+    const wlim = (e.d >= 0 ? geo.wallR : geo.wallL)[this.wallIdx(e.s)] - 0.6;
+    if (Math.abs(e.d) > wlim) {
+      e.d = Math.sign(e.d) * wlim;
       if (ctl.crash && e.v > 22) return this.crashPlayer(e, 'BARRIER');
       if (ctl.pure) { e.psi *= -0.25; e.v *= 0.75; } // physical bounce only, no redirect
       else if (ctl.auto) { e.psi = -Math.sign(e.d) * 0.04; e.v *= 0.85; } else { e.psi *= -0.25; e.v *= 0.62; }

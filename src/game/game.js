@@ -235,7 +235,7 @@ export class Game {
     const ts = r.value; scene.add(ts.group);
     // race logic
     const race = new Race({ geo, track, laps: cfg.laps, weather, difficulty: cfg.difficulty, control: this.settings.control, gearMode: this.settings.gear, playerTire: cfg.playerTire, entrants: cfg.entrants, spectator: !!cfg.spectator, seed: cfg.seed });
-    race.wallD = ts.wall;
+    race.wallD = ts.wall; // (collision uses geo.wallR/wallL — identical to the rendered barriers)
     let order = race.qualify();
     if (cfg.gridIds) { const by = new Map(race.entrants.map(e => [e.rider.id, e])); const o = cfg.gridIds.map(id => by.get(id)).filter(Boolean); if (o.length === race.entrants.length) order = o; }
     race.placeOnGrid(order, gridSlots(geo, race.entrants.length));
@@ -476,7 +476,7 @@ export class Game {
       const E = race.entrants;
       while (this.acc >= step && n < 240) {
         for (let k = 0; k < E.length; k++) { const e = E[k]; e.ps = e.s; e.pd = e.d; e.ppsi = e.psi; e.plean = e.lean; }
-        race.step(step, this.state === 'finished' ? {} : ui); this.acc -= step; n++; ui.shiftUp = ui.shiftDown = ui.reset = false;
+        race.step(step, this.state === 'finished' ? {} : ui); this.acc -= step; n++; ui.shiftUp = ui.shiftDown = ui.reset = ui.pit = false; // edge-triggered: once per frame, not once per sub-step (pit toggled twice = cancelled)
       }
       this.alpha = n ? Math.min(1, this.acc / step) : this.alpha;
       if (race.phase === 'race' && this.state === 'start') this.state = 'race';

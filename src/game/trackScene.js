@@ -256,8 +256,8 @@ export function* trackSceneStages(geo, opts) {
   }
   const roadGeo = fixWinding(ribbon(geo, () => -hw, () => hw, 0.02, 0, N, 1, hw * 2));
   const road = new THREE.Mesh(roadGeo, roadMat);
-  road.receiveShadow = true; group.add(road);
-  if (wet && !PBR) { const sheen = new THREE.Mesh(road.geometry, new THREE.MeshBasicMaterial({ color: '#8899aa', transparent: true, opacity: 0.12, depthWrite: false })); sheen.position.y = 0.005; group.add(sheen); }
+  road.receiveShadow = true; road.userData.surface = true; group.add(road);
+  if (wet && !PBR) { const sheen = new THREE.Mesh(road.geometry, new THREE.MeshBasicMaterial({ color: '#8899aa', transparent: true, opacity: 0.12, depthWrite: false })); sheen.position.y = 0.005; sheen.userData.surface = true; group.add(sheen); }
 
   // kerbs with a bevelled cross-section (rise, flat crest, drop)
   const kerbMat = PBR ? new THREE.MeshStandardMaterial({ map: kerbTexture(), roughness: wet ? 0.25 : 0.55, metalness: 0 }) : new THREE.MeshLambertMaterial({ map: kerbTexture() });
@@ -269,49 +269,52 @@ export function* trackSceneStages(geo, opts) {
     if (c && start < 0) start = i;
     if (!c && start >= 0) { for (const side of [1, -1]) kerbGeos.push(profileStrip(geo, side, hw, KP, start, i, 2.4)); start = -1; }
   }
-  if (kerbGeos.length) { const m = new THREE.Mesh(mergeGeometries(kerbGeos), kerbMat); m.receiveShadow = true; group.add(m); kerbGeos.forEach(g => g.dispose()); }
+  if (kerbGeos.length) { const m = new THREE.Mesh(mergeGeometries(kerbGeos), kerbMat); m.receiveShadow = true; m.userData.surface = true; group.add(m); kerbGeos.forEach(g => g.dispose()); }
 
   // run-off: green painted band + gravel traps on the outside of corners
   const runMat = PBR ? new THREE.MeshStandardMaterial({ map: runoffTexture(), roughness: wet ? 0.35 : 0.9 }) : new THREE.MeshLambertMaterial({ map: runoffTexture() });
   const gravMat = PBR ? new THREE.MeshStandardMaterial({ map: gravelTexture(theme.gravel), roughness: 1 }) : new THREE.MeshLambertMaterial({ map: gravelTexture(theme.gravel) });
   const runGeos = [], gravGeos = [];
   for (const side of [1, -1]) {
-    runGeos.push(fixWinding(ribbon(geo, (i) => side * (hw + (isCorner(i) ? KERB : 0.0)), (i) => side * (hw + PAVED), 0.012, 0, N, 2, 8)));
-    const gravelAt = (i) => Math.sign(geo.kappa[i]) === -side && absK[i] > 1 / 200;
+    const wl = side > 0 ? geo.wallR : geo.wallL, edge = (i, d) => Math.min(d, wl[i % N] - 0.25);
+    runGeos.push(fixWinding(ribbon(geo, (i) => side * Math.min(hw + (isCorner(i) ? KERB : 0.0), edge(i, hw + PAVED)), (i) => side * edge(i, hw + PAVED), 0.012, 0, N, 2, 8)));
+    const gravelAt = (i) => Math.sign(geo.kappa[i]) === -side && absK[i] > 1 / 200 && wl[i % N] > hw + PAVED + 2;
     let st = -1;
     for (let i = 0; i <= N; i += 2) {
       const gz = i < N && gravelAt(i);
       if (gz && st < 0) st = i;
-      if (!gz && st >= 0) { gravGeos.push(fixWinding(ribbon(geo, () => side * (hw + PAVED), () => side * (hw + RUNOFF), 0.008, st, i, 2, 10))); st = -1; }
+      if (!gz && st >= 0) { gravGeos.push(fixWinding(ribbon(geo, (j) => side * edge(j, hw + PAVED), (j) => side * edge(j, hw + RUNOFF), 0.008, st, i, 2, 10))); st = -1; }
     }
   }
   // the ribbon uv.x spans 0..1 across the strip; rescale so textures are not stretched
   for (const g of gravGeos) { const uv = g.attributes.uv; for (let i = 0; i < uv.count; i++) uv.setX(i, uv.getX(i) * (RUNOFF - PAVED) / 10); }
-  { const m = new THREE.Mesh(mergeGeometries(runGeos), runMat); m.receiveShadow = true; group.add(m); }
-  if (gravGeos.length) { const m = new THREE.Mesh(mergeGeometries(gravGeos), gravMat); m.receiveShadow = q >= 2; group.add(m); }
+  { const m = new THREE.Mesh(mergeGeometries(runGeos), runMat); m.receiveShadow = true; m.userData.surface = true; group.add(m); }
+  if (gravGeos.length) { const m = new THREE.Mesh(mergeGeometries(gravGeos), gravMat); m.receiveShadow = q >= 2; m.userData.surface = true; group.add(m); }
 
   // barriers: sponsor boards + top rail
   const boardMat = new THREE.MeshLambertMaterial({ map: boardTexture(), side: THREE.DoubleSide });
   const boardGeos = [];
   for (const side of [1, -1]) {
-    const pos = [], uv = [], idx = []; let k = 0;
-    for (let ii = 0; ii <= N; ii += 3) {
-      const i = ii % N, d = side * WALL, y = geo.y[i];
+    const wl = side > 0 ? geo.wallR : geo.wallL, wv = side > 0 ? geo.wallVisR : geo.wallVisL;
+    const pos = [], uv = [], idx = []; let k = 0, prev = false;
+    for (let ii = 0; ii <= N; ii += (wl[ii % N] < WALL - 0.3 || wl[(ii + 3) % N] < WALL - 0.3 || wl[(ii + N - 3) % N] < WALL - 0.3 || !wv[(ii + 3) % N] || !wv[(ii + N - 3) % N]) ? 1 : 3) { // every sample where the barrier is pulled in
+      const i = ii % N; if (!wv[i]) { prev = false; continue; }
+      const d = side * wl[i], y = geo.y[i];
       const px = geo.x[i] + geo.rx[i] * d, pz = geo.z[i] + geo.rz[i] * d;
       pos.push(px, y - 0.3, pz, px, y + 1.1, pz);
       const v = ii * geo.ds / 60; uv.push(v, 0, v, 1);
-      if (k > 0) { const a = (k - 1) * 2; idx.push(a, a + 2, a + 1, a + 1, a + 2, a + 3); }
-      k++;
+      if (prev) { const a = (k - 1) * 2; idx.push(a, a + 2, a + 1, a + 1, a + 2, a + 3); }
+      k++; prev = true;
     }
     const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals();
     boardGeos.push(g);
   }
-  group.add(new THREE.Mesh(mergeGeometries(boardGeos), boardMat));
+  { const bm = new THREE.Mesh(mergeGeometries(boardGeos), boardMat); bm.userData.barrier = true; group.add(bm); }
   // start/finish line & grid slots
   const lineMat = new THREE.MeshLambertMaterial({ map: cached('sfline', () => canvasTex(128, 16, (x) => { for (let i = 0; i < 16; i++) for (let j = 0; j < 2; j++) { x.fillStyle = (i + j) % 2 ? '#111' : '#fff'; x.fillRect(i * 8, j * 8, 8, 8); } }, false)) });
   const sfl = new THREE.Mesh(new THREE.PlaneGeometry(hw * 2, 1.6), lineMat);
   sfl.rotation.x = -Math.PI / 2; sfl.rotation.z = -Math.atan2(geo.tz[0], geo.tx[0]) + Math.PI / 2;
-  sfl.position.set(geo.x[0], geo.y[0] + 0.035, geo.z[0]); group.add(sfl);
+  sfl.position.set(geo.x[0], geo.y[0] + 0.035, geo.z[0]); sfl.userData.surface = true; group.add(sfl);
   const slots = gridSlots(geo, 24);
   {
     const sg = [];
@@ -321,7 +324,7 @@ export function* trackSceneStages(geo, opts) {
       o.position.set(geo.x[i] + geo.rx[i] * sl.d, geo.y[i] + 0.04, geo.z[i] + geo.rz[i] * sl.d); o.translateY(-1.1); o.updateMatrix();
       sg.push(new THREE.PlaneGeometry(1.4, 0.18).applyMatrix4(o.matrix));
     }
-    group.add(new THREE.Mesh(mergeGeometries(sg), new THREE.MeshBasicMaterial({ color: '#d8d8d8' })));
+    { const gm2 = new THREE.Mesh(mergeGeometries(sg), new THREE.MeshBasicMaterial({ color: '#d8d8d8' })); gm2.userData.surface = true; group.add(gm2); }
   }
 
   // start gantry with emissive (HDR -> bloom) lights
@@ -342,7 +345,7 @@ export function* trackSceneStages(geo, opts) {
   }
   gantry.position.set(geo.x[0], geo.y[0], geo.z[0]);
   gantry.rotation.y = Math.atan2(-geo.tx[0], -geo.tz[0]);
-  gantry.traverse(o => { if (o.isMesh) { o.castShadow = q >= 2; o.userData.ink = true; } });
+  gantry.traverse(o => { if (o.isMesh) { o.castShadow = q >= 2; o.userData.ink = true; o.userData.overhead = true; } });
   group.add(gantry);
   yield { p: 0.3, label: 'Shaping the landscape' };
 
@@ -355,7 +358,14 @@ export function* trackSceneStages(geo, opts) {
   const cell = [34, 28, 22, 18][q]; // v3: flat toon terrain needs far fewer triangles
   const nx = Math.ceil((mxx - mnx) / cell) + 1, nz = Math.ceil((mxz - mnz) / cell) + 1;
   const H = 60, hash = new Map();
-  for (let i = 0; i < N; i += 2) { const key = Math.floor(geo.x[i] / H) + ',' + Math.floor(geo.z[i] / H); if (!hash.has(key)) hash.set(key, []); hash.get(key).push(i); }
+  for (let i = 0; i < N; i += 1) { const key = Math.floor(geo.x[i] / H) + ',' + Math.floor(geo.z[i] / H); if (!hash.has(key)) hash.set(key, []); hash.get(key).push(i); }
+  // lowest road height within `r` metres (any section) — terrain must stay below every road it touches, otherwise
+  // a slope built from the higher of two neighbouring sections (Monaco, Spa, Baku, crossovers) rises through the lower road
+  const lowestRoad = (x, z, r) => {
+    const gx = Math.floor(x / H), gz = Math.floor(z / H), rad = Math.ceil(r / H); let lo = Infinity;
+    for (let a = -rad; a <= rad; a++) for (let b = -rad; b <= rad; b++) { const l = hash.get((gx + a) + ',' + (gz + b)); if (!l) continue; for (const i of l) if ((geo.x[i] - x) ** 2 + (geo.z[i] - z) ** 2 < r * r && geo.y[i] < lo) lo = geo.y[i]; }
+    return lo;
+  };
   const nearest = (x, z, rad = 2) => {
     const gx = Math.floor(x / H), gz = Math.floor(z / H); let bd = 1e18, bi = -1;
     for (let a = -rad; a <= rad; a++) for (let b = -rad; b <= rad; b++) { const l = hash.get((gx + a) + ',' + (gz + b)); if (!l) continue; for (const i of l) { const dd = (geo.x[i] - x) ** 2 + (geo.z[i] - z) ** 2; if (dd < bd) { bd = dd; bi = i; } } }
@@ -368,7 +378,8 @@ export function* trackSceneStages(geo, opts) {
   // coastal: the sea lies beyond the circuit in one direction
   const oceanA = rnd() * Math.PI * 2, odx = Math.cos(oceanA), odz = Math.sin(oceanA);
   let reach = 0; for (let i = 0; i < N; i += 4) reach = Math.max(reach, (geo.x[i] - cx) * odx + (geo.z[i] - cz) * odz);
-  const seaY = yavg - 4, shore = reach + 160;
+  let ymin = Infinity; for (let i = 0; i < N; i++) ymin = Math.min(ymin, geo.y[i]);
+  const seaY = Math.min(yavg - 4, ymin - 3), shore = reach + 160;
   const gA = new THREE.Color(theme.grass[0]), gB = new THREE.Color(theme.grass[1]), farC = new THREE.Color(theme.far), sandC = new THREE.Color(theme.gravel), tmpC = new THREE.Color();
   const tPos = new Float32Array(nx * nz * 3), tCol = new Float32Array(nx * nz * 3), distArr = new Float32Array(nx * nz);
   for (let j = 0; j < nz; j++) for (let i = 0; i < nx; i++) {
@@ -387,6 +398,7 @@ export function* trackSceneStages(geo, opts) {
     }
     if (dd < hw + RUNOFF + 10) h = near - 0.25;
     else if (dd < hw + 60) h = Math.min(h, near - 0.25 + (dd - hw - RUNOFF - 10) * 0.05);
+    if (dd < hw + WALL + cell * 1.6) { const lo = lowestRoad(x, z, hw + WALL + cell * 1.6); if (lo < Infinity) h = Math.min(h, lo - 0.3); }
     tPos[id * 3] = x; tPos[id * 3 + 1] = h; tPos[id * 3 + 2] = z;
     const v = hills(x * 3.1, z * 2.7) * 0.5 + 0.5;
     tmpC.copy(gA).lerp(gB, v).lerp(farC, far * 0.7);
@@ -403,15 +415,15 @@ export function* trackSceneStages(geo, opts) {
   tg.setIndex(tIdx); tg.computeVertexNormals();
   const terrainMat = new THREE.MeshLambertMaterial({ map: grassTexture(theme), vertexColors: true });
   const terrain = new THREE.Mesh(tg, terrainMat);
-  terrain.receiveShadow = q >= 2; group.add(terrain);
+  terrain.receiveShadow = q >= 2; terrain.userData.surface = true; group.add(terrain);
   // far ground disc so the horizon never shows a void beyond the terrain patch
-  { const fg = new THREE.Mesh(new THREE.CircleGeometry(9000, 32), new THREE.MeshBasicMaterial({ color: farC.clone().multiplyScalar(wet ? 0.6 : 0.85) })); fg.rotation.x = -Math.PI / 2; fg.position.set(cx, yavg - 30, cz); group.add(fg); }
+  { const fg = new THREE.Mesh(new THREE.CircleGeometry(9000, 32), new THREE.MeshBasicMaterial({ color: farC.clone().multiplyScalar(wet ? 0.6 : 0.85) })); fg.rotation.x = -Math.PI / 2; fg.position.set(cx, yavg - 30, cz); fg.userData.surface = true; group.add(fg); }
   let ocean = null;
   if (theme.ocean) {
     const om = PBR ? new THREE.MeshStandardMaterial({ color: '#1f5a78', roughness: 0.12, metalness: 0.1, normalMap: asphaltMaps(), normalScale: new THREE.Vector2(0.25, 0.25) }) : new THREE.MeshLambertMaterial({ color: '#2a6688' });
     if (PBR) { om.normalMap = om.normalMap.clone(); om.normalMap.repeat.set(300, 300); om.normalMap.needsUpdate = true; }
     ocean = new THREE.Mesh(new THREE.PlaneGeometry(24000, 24000), om); ocean.rotation.x = -Math.PI / 2;
-    ocean.position.set(cx + odx * (shore + 12100), seaY, cz + odz * (shore + 12100)); group.add(ocean);
+    ocean.position.set(cx + odx * (shore + 12100), seaY, cz + odz * (shore + 12100)); ocean.userData.surface = true; group.add(ocean);
   }
   const terrainH = (x, z) => { const i = Math.round((x - mnx) / cell), j = Math.round((z - mnz) / cell); if (i < 0 || j < 0 || i >= nx || j >= nz) return yavg; return tPos[(j * nx + i) * 3 + 1]; };
   const terrainD = (x, z) => { const i = Math.round((x - mnx) / cell), j = Math.round((z - mnz) / cell); if (i < 0 || j < 0 || i >= nx || j >= nz) return 999; return distArr[j * nx + i]; };
@@ -432,7 +444,7 @@ export function* trackSceneStages(geo, opts) {
       tries++;
       const si = (rnd() * N) | 0; const side = rnd() < 0.5 ? -1 : 1; const dist = WALL + 10 + Math.pow(rnd(), 1.7) * 480;
       const x = geo.x[si] + geo.rx[si] * dist * side + (rnd() - 0.5) * 40, z = geo.z[si] + geo.rz[si] * dist * side + (rnd() - 0.5) * 40;
-      if (terrainD(x, z) < WALL + 8) continue;
+      if (terrainD(x, z) < WALL + 8 || geo.clearAt(x, z) < WALL - hw + 6) continue;
       const y = terrainH(x, z); if (theme.ocean && y < seaY + 1) continue;
       const s = kind === 'shrub' ? 0.6 + rnd() * 0.9 : 0.75 + rnd() * 0.6;
       dummy.position.set(x, y - 0.2, z); dummy.scale.set(s, s * (0.85 + rnd() * 0.35), s); dummy.rotation.set(0, rnd() * 6.28, 0); dummy.updateMatrix();
@@ -444,6 +456,17 @@ export function* trackSceneStages(geo, opts) {
   }
   yield { p: 0.7, label: 'Filling the grandstands' };
 
+  // footprint test: every point of a local rectangle (object frame: x along, z away from track) must be clear of all road
+  // (any section at a similar height) by `gap` metres, so no prop ever stands on or overhangs the racing surface
+  const footClear = (px, pz, py, rotY, hx, z0, z1, gap) => {
+    const c = Math.cos(rotY), s = Math.sin(rotY);
+    for (let a = -hx; a <= hx + 1e-6; a += Math.max(1, hx / 8)) for (let b = z0; b <= z1 + 1e-6; b += Math.max(1, (z1 - z0) / 4)) {
+      const wx = px + a * c + b * s, wz = pz - a * s + b * c;
+      if (geo.clearAt(wx, wz, py) < gap) return false;
+    }
+    return true;
+  };
+  const wallOf = (i, side) => (side > 0 ? geo.wallR : geo.wallL)[((i % N) + N) % N];
   // ---------------- grandstands with crowd, pit building, marshal posts ----------------
   let ksum = 0; for (let i = 0; i < N; i++) ksum += geo.kappa[i];
   const infield = ksum > 0 ? 1 : -1;
@@ -465,12 +488,14 @@ export function* trackSceneStages(geo, opts) {
     st.add(new THREE.Mesh(mergeGeometries(parts), people ? seatMat : standTexMat));
     const back = new THREE.Mesh(new THREE.BoxGeometry(len, tiers * 1.6 + 4, 1), concrete); back.position.set(0, (tiers * 1.6 + 4) / 2, tiers * 2.2 + 0.5); st.add(back);
     const roof = new THREE.Mesh(new THREE.BoxGeometry(len + 2, 0.4, tiers * 2.2 + 4), roofMat); roof.position.set(0, tiers * 1.6 + 4, tiers * 1.1); st.add(roof);
-    const d = side * (WALL + 3);
+    const d = side * (wallOf(i, side) + 3);
     st.position.set(geo.x[i] + geo.rx[i] * d, geo.y[i] - 0.3, geo.z[i] + geo.rz[i] * d);
     st.rotation.y = Math.atan2(geo.rx[i] * side, geo.rz[i] * side);
+    if (!footClear(st.position.x, st.position.z, geo.y[i], st.rotation.y, len / 2 + 1, -1, tiers * 2.2 + 3, 3)) return false;
     st.traverse(o => { if (o.isMesh) o.userData.ink = true; });
     group.add(st); st.updateMatrixWorld(true);
     stands.push({ s: i * geo.ds, x: st.position.x, z: st.position.z });
+    st.userData.prop = true;
     if (crowd) {
       const r = mulberry(i * 3 + 1);
       for (let t = 0; t < tiers; t++) for (let px = -len / 2 + 0.4; px < len / 2 - 0.3; px += 0.55) {
@@ -480,29 +505,39 @@ export function* trackSceneStages(geo, opts) {
         tc.set(pcols[(r() * pcols.length) | 0]); crowd.setColorAt(pc, tc); pc++;
       }
     }
+    return true;
   };
   const standCount = [3, 6, 10, 14][q];
-  for (let k = 0; k < 3; k++) addStand(-60 - k * 45, -infield, 42);
+  for (let k = 0, at = -60; k < 3 && at > -600; at -= 15) if (addStand(at, -infield, 42)) { k++; at -= 30; }
   const zones = [];
   for (let i = 0; i < N; i += 5) { if (absK[i] > 1 / 60) zones.push(i); }
-  for (let k = 0; k < standCount - 3 && zones.length; k++) { const i = zones[Math.floor((k + 0.5) / (standCount - 3) * zones.length)]; addStand(i - 25, Math.sign(geo.kappa[i]) > 0 ? -1 : 1, 50, 5); }
+  for (let k = 0; k < standCount - 3 && zones.length; k++) { const i = zones[Math.floor((k + 0.5) / (standCount - 3) * zones.length)]; const sd = Math.sign(geo.kappa[i]) > 0 ? -1 : 1; addStand(i - 25, sd, 50, 5) || addStand(i - 25, sd, 30, 4) || addStand(i - 25, -sd, 30, 4); }
   if (crowd) { crowd.count = pc; crowd.computeBoundingSphere(); group.add(crowd); crowdMats.push(crowd.material); }
   // pit building on infield side of main straight
   {
     const pitLen = 260, i0 = ((Math.round(-140 / geo.ds) % N) + N) % N;
     const pb = new THREE.Mesh(new THREE.BoxGeometry(pitLen, 9, 14), new THREE.MeshLambertMaterial({ map: cached('pitb', () => canvasTex(1024, 64, (x, w, h) => { x.fillStyle = '#e9ebee'; x.fillRect(0, 0, w, h); for (let i = 0; i < 24; i++) { x.fillStyle = '#26303a'; x.fillRect(i * 42 + 6, 18, 32, 40); x.fillStyle = ['#c8102e', '#1546c7', '#0e7a3c', '#ff7f11'][i % 4]; x.fillRect(i * 42 + 6, 14, 32, 4); } x.fillStyle = '#c8102e'; x.fillRect(0, 0, w, 8); }, false)) }));
-    const d = infield * (WALL + 14);
-    pb.position.set(geo.x[i0] + geo.rx[i0] * d, geo.y[i0] + 4.2, geo.z[i0] + geo.rz[i0] * d);
     pb.rotation.y = Math.atan2(-geo.tx[i0], -geo.tz[i0]) + Math.PI / 2;
-    group.add(pb);
+    // shorten / push back until the whole box is clear of every road section (curved or parallel straights)
+    let placed = false;
+    for (const len of [260, 200, 150, 100]) {
+      for (let back = 14; back <= 40 && !placed; back += 4) {
+        const d = infield * (wallOf(i0, infield) + back);
+        const px = geo.x[i0] + geo.rx[i0] * d, pz = geo.z[i0] + geo.rz[i0] * d;
+        if (footClear(px, pz, geo.y[i0], pb.rotation.y, len / 2, -7, 7, 3)) { pb.scale.x = len / pitLen; pb.position.set(px, geo.y[i0] + 4.2, pz); placed = true; }
+      }
+      if (placed) break;
+    }
+    pb.userData.prop = true;
+    if (placed) group.add(pb);
   }
   // marshal posts (instanced hut + flag) every ~300 m, alternating sides
   {
     const hut = mergeGeometries([vcol(strip((() => { const g = new THREE.BoxGeometry(1.6, 2.1, 1.6); g.translate(0, 1.05, 0); return g; })()), '#f07f1a'), vcol(strip((() => { const g = new THREE.BoxGeometry(2.0, 0.18, 2.0); g.translate(0, 2.2, 0); return g; })()), '#f4f4f4'), vcol(strip((() => { const g = new THREE.CylinderGeometry(0.03, 0.03, 2.6, 4); g.translate(0.9, 1.3, 0.9); return g; })()), '#bbbbbb'), vcol(strip((() => { const g = new THREE.BoxGeometry(0.6, 0.4, 0.02); g.translate(1.2, 2.4, 0.9); return g; })()), '#ffd400')]);
     const step = Math.max(40, Math.round(300 / geo.ds)), cnt = Math.floor(N / step);
     const posts = new THREE.InstancedMesh(hut, new THREE.MeshLambertMaterial({ vertexColors: true }), cnt);
-    for (let k = 0; k < cnt; k++) { const i = (k * step + 17) % N, side = k % 2 ? 1 : -1, d = side * (WALL + 2.2); dummy.position.set(geo.x[i] + geo.rx[i] * d, geo.y[i] - 0.2, geo.z[i] + geo.rz[i] * d); dummy.scale.set(1, 1, 1); dummy.rotation.set(0, geo.heading[i], 0); dummy.updateMatrix(); posts.setMatrixAt(k, dummy.matrix); }
-    posts.computeBoundingSphere(); group.add(posts);
+    let pk = 0; for (let k = 0; k < cnt; k++) { const i = (k * step + 17) % N, side = k % 2 ? 1 : -1, d = side * (wallOf(i, side) + 2.2); if (geo.clearAt(geo.x[i] + geo.rx[i] * d, geo.z[i] + geo.rz[i] * d, geo.y[i]) < 2.5) continue; dummy.position.set(geo.x[i] + geo.rx[i] * d, geo.y[i] - 0.2, geo.z[i] + geo.rz[i] * d); dummy.scale.set(1, 1, 1); dummy.rotation.set(0, geo.heading[i], 0); dummy.updateMatrix(); posts.setMatrixAt(pk++, dummy.matrix); }
+    posts.count = pk; posts.computeBoundingSphere(); group.add(posts);
   }
   // brake marker boards (300/200/100) before the heaviest corners, one merged mesh
   {
@@ -513,7 +548,8 @@ export function* trackSceneStages(geo, opts) {
         last = i; made++;
         const side = Math.sign(geo.kappa[(i + 12) % N]) > 0 ? -1 : 1;
         for (let k = 0; k < 3; k++) {
-          const j = ((i - Math.round((100 * (3 - k) - 40) / geo.ds)) % N + N) % N, d = side * (hw + PAVED + 0.8);
+          const j = ((i - Math.round((100 * (3 - k) - 40) / geo.ds)) % N + N) % N, d = side * Math.min(hw + PAVED + 0.8, wallOf(j, side) - 0.6);
+          if (geo.clearAt(geo.x[j] + geo.rx[j] * d, geo.z[j] + geo.rz[j] * d, geo.y[j]) < 0.6) continue;
           const g = new THREE.PlaneGeometry(0.9, 0.9); const uv = g.attributes.uv; for (let u = 0; u < uv.count; u++) uv.setY(u, (2 - k + uv.getY(u)) / 3);
           const o = new THREE.Object3D(); o.position.set(geo.x[j] + geo.rx[j] * d, geo.y[j] + 0.9, geo.z[j] + geo.rz[j] * d); o.rotation.y = Math.atan2(-geo.tx[j], -geo.tz[j]) + Math.PI; o.updateMatrix();
           g.applyMatrix4(o.matrix); bg.push(g);
@@ -530,14 +566,15 @@ export function* trackSceneStages(geo, opts) {
     const cnt = Math.floor(N / 40);
     const poles = new THREE.InstancedMesh(poleG, new THREE.MeshLambertMaterial({ color: '#444' }), cnt);
     const heads = new THREE.InstancedMesh(headG, new THREE.MeshBasicMaterial({ color: new THREE.Color(5, 4.8, 4.2) }), cnt);
-    for (let k = 0; k < cnt; k++) { const i = k * 40, side = k % 2 ? 1 : -1, d = side * (WALL + 2); dummy.position.set(geo.x[i] + geo.rx[i] * d, geo.y[i], geo.z[i] + geo.rz[i] * d); dummy.scale.set(1, 1, 1); dummy.rotation.set(0, geo.heading[i], 0); dummy.updateMatrix(); poles.setMatrixAt(k, dummy.matrix); heads.setMatrixAt(k, dummy.matrix); }
+    let fk = 0; for (let k = 0; k < cnt; k++) { const i = k * 40, side = k % 2 ? 1 : -1, d = side * (wallOf(i, side) + 2); if (geo.clearAt(geo.x[i] + geo.rx[i] * d, geo.z[i] + geo.rz[i] * d, geo.y[i]) < 1.5) continue; dummy.position.set(geo.x[i] + geo.rx[i] * d, geo.y[i], geo.z[i] + geo.rz[i] * d); dummy.scale.set(1, 1, 1); dummy.rotation.set(0, geo.heading[i], 0); dummy.updateMatrix(); poles.setMatrixAt(fk, dummy.matrix); heads.setMatrixAt(fk, dummy.matrix); fk++; }
+    poles.count = heads.count = fk;
     poles.computeBoundingSphere(); heads.computeBoundingSphere();
     group.add(poles, heads);
   }
   yield { p: 0.85, label: 'Final checks' };
   // ---- v3 anime pass: toon materials, merge static meshes per material (draw calls), ink outlines on key props ----
   toonify(group);
-  staticMerge(group, new Set([ocean].filter(Boolean)));
+  if (!opts.noMerge) staticMerge(group, new Set([ocean].filter(Boolean)));
   if (q >= 1) addOutlines(group, { width: q >= 2 ? 2.4 : 2.0, minSize: 0.5, filter: (o) => o.userData.ink });
   return {
     group, lights, slots, stands, yBase: yavg, bounds: { mnx, mxx, mnz, mxz }, wall: WALL, kerb: KERB, runoff: RUNOFF, isCorner, absK,

@@ -52,6 +52,13 @@ for (tid,f,name,gp,country,flag,laps,length,width,elev,grip,temp,night,theme,ch,
     Q = [S[0]]
     for p in S[1:]:
         if math.hypot(p[0]-Q[-1][0], p[1]-Q[-1][1]) > 12: Q.append(p)
+    # densify long chords so the centripetal spline follows the real road (sparse points let the spline sweep sideways,
+    # e.g. Baku's side-by-side carriageways collapsed onto each other)
+    R = []
+    for k in range(len(Q)):
+        p, q = Q[k], Q[(k+1) % len(Q)]; R.append(p); L = math.hypot(q[0]-p[0], q[1]-p[1]); m = int(L // 70)
+        for t in range(1, m+1): R.append((p[0]+(q[0]-p[0])*t/(m+1), p[1]+(q[1]-p[1])*t/(m+1)))
+    Q = R
     # pts[0] = point before start, pts[1] = on the main straight; rotate so that start line ~ index 1
     if tid in ('singapore',): Q = [Q[0]] + Q[1:][::-1]  # outline drawn against race direction (Marina Bay runs anticlockwise)
     Q = Q[-1:] + Q[:-1]
