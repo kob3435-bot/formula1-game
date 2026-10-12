@@ -1,3 +1,4 @@
+import { viewSize } from '../orient.js';
 // v3 "post": the anime look needs no render-target chain. The scene renders straight to the canvas
 // (MSAA from the context on MEDIUM+), and screen effects are cheap DOM overlays composited by the browser:
 // anime speed lines (pre-drawn radial wedges, 4 frames cycled) and impact / overtake flash frames.
@@ -86,7 +87,7 @@ export class Post {
     const k = vis > 0.02 ? `${Math.round(x * 400)},${Math.round(y * 400)},${Math.round(vis * 20)}` : '0';
     if (k === this._sun) return; this._sun = k;
     if (vis <= 0.02) { this.rays.style.opacity = 0; this.ghosts.style.opacity = 0; return; }
-    const W = innerWidth, H = innerHeight, sx = x * W, sy = y * H;
+    const { w: W, h: H } = viewSize(), sx = x * W, sy = y * H;
     this.rays.style.opacity = (0.55 * vis).toFixed(2); this.rays.style.transform = `translate(${sx}px,${sy}px) translate(-50%,-50%)`;
     this.ghosts.style.opacity = (0.8 * vis).toFixed(2);
     const g = this.ghosts.children, dx = W / 2 - sx, dy = H / 2 - sy;
