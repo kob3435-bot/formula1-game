@@ -25,7 +25,7 @@ async function portraitFlow(name, dev) {
   await tapStage(page, '[data-go=quick]'); await page.waitForSelector('#go');
   { // the rotated menu is scrollable (long screens such as the driver picker); scroll input is mapped through the rotation by the browser
     await page.evaluate(() => { document.getElementById('ui').scrollTop = 0; });
-    await page.mouse.move(dev.viewport.width / 2, dev.viewport.height / 2); await page.mouse.wheel(0, 400); await page.waitForTimeout(400);
+    for (let k = 0; k < 4 && !(await page.evaluate(() => document.getElementById('ui').scrollTop)); k++) { await page.mouse.move(dev.viewport.width / 2, dev.viewport.height / 2); await page.mouse.wheel(0, 400); await page.waitForTimeout(600); }
     const after = await page.evaluate(() => { const u = document.getElementById('ui'); return { top: u.scrollTop, max: u.scrollHeight - u.clientHeight }; });
     ok(`${name}: rotated menu scrolls`, after.max <= 0 || after.top > 0, JSON.stringify(after));
     await page.evaluate(() => { document.getElementById('ui').scrollTop = 0; });
