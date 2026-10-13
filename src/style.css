@@ -398,3 +398,5 @@ html.rot body { overscroll-behavior: none; }
 #h-otm { color: #7dff9b; }
 #h-box { color: #ffcc00; font-weight: 800; letter-spacing: 1px; margin-left: 6px; }
 .touch .tbtn.box { width: 12vw; height: 14vh; bottom: auto; top: 28vh; left: 50%; transform: translateX(-50%); font-size: 18px; font-weight: 900; letter-spacing: 2px; }
+html.rot #ui, html.rot #ui * { touch-action: none; } /* rotated: menus are finger-scrolled by orient.js along the rotated axis */
+#ui { overscroll-behavior: contain; }

@@ -15,7 +15,8 @@
     "test:walls": "node tests/walls.mjs",
     "test:rules": "node tests/f1-rules.mjs",
     "test:gameplay": "node tests/gameplay.mjs",
-    "test:rotate": "node tests/rotate.mjs"
+    "test:rotate": "node tests/rotate.mjs",
+    "test:scroll": "node tests/scroll.mjs"
   },
   "dependencies": {
     "peerjs": "^1.5.5",

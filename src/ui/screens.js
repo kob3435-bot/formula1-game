@@ -377,7 +377,7 @@ export class UI {
     const s = this.settings;
     const el = this.show(`${this.header('SETTINGS')}
       <div class="settings">
-        <div class="sg"><h4>RIDING</h4>
+        <div class="sg"><h4>DRIVING</h4>
           <label>CONTROL MODE</label>${controlPicker(s.control)}
           <label>GEARS (MANUAL MODE)</label>${seg('gear', ['AUTO', 'MANUAL'], s.gear)}
           <label>RACING LINE</label>${seg('line', ['OFF', 'BRAKING', 'FULL'], s.line, { BRAKING: 'BRAKING ONLY' })}

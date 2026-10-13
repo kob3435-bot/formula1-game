@@ -7,7 +7,7 @@ const OUT = new URL('../screenshots/', import.meta.url).pathname; mkdirSync(OUT,
 const CHROME = process.env.CHROME || '/usr/bin/google-chrome';
 // blocklist of real-world rider/manufacturer/circuit names that must never appear (base64 so the names are not stored in the repo as plain text)
 // leftover content from the MotoGP game this was forked from must never appear (Honda is legitimate: Aston Martin's 2026 power unit)
-const MOTO_RX = /\b(moto ?gp|motorcycles?|riders?|bikes?|ducati|yamaha|ktm|aprilia|suzuki|fulminor|kairyu|sorami|seiran|brennwerk|ventara|wheelie|highside|lowside|knee slider|bagnaya|marqu[eé]s|novara|tidecore|siam thunder)\b/i;
+const MOTO_RX = /\b(riding|moto ?gp|motorcycles?|riders?|bikes?|ducati|yamaha|ktm|aprilia|suzuki|fulminor|kairyu|sorami|seiran|brennwerk|ventara|wheelie|highside|lowside|knee slider|bagnaya|marqu[eé]s|novara|tidecore|siam thunder)\b/i;
 const results = []; const ok = (name, cond, info = '') => { results.push({ name, pass: !!cond, info }); console.log(`${cond ? 'PASS' : 'FAIL'}  ${name} ${info}`); };
 const browser = await chromium.launch({ executablePath: CHROME, args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] });
 
