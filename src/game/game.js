@@ -97,7 +97,7 @@ export class Game {
     this.__anim = (m, lean, v = 30) => animateBike(m, { lean, v, dt: 0.05, near: true }); // debug/screenshot hook
     this.buildShowroom();
     this.applyGraphics(settings.graphics);
-    window.addEventListener('resize', () => this.resize());
+    window.addEventListener('resize', () => this.resize()); window.addEventListener('f1-resize', () => this.resize()); // live re-layout on rotation, no pause
     this.resize();
     this.loop = this.loop.bind(this);
     requestAnimationFrame(this.loop);
@@ -121,7 +121,8 @@ export class Game {
     if (this.fx && this.scene) { /* particle budgets are rebuilt with the next race */ }
   }
   resize() {
-    const { w, h } = viewSize(); // swapped when the stage is CSS-rotated to landscape on a portrait phone
+    { const hd = this.hudRoot && this.hudRoot.querySelector('.hud'); if (hd) hd.classList.toggle('portrait', !!viewSize().portrait); }
+    const { w, h } = viewSize();
     this.renderer.setSize(w, h, false); this.camera.aspect = w / h; this.camera.updateProjectionMatrix();
     setOutlineResolution(w, h);
     this.post.resize();
@@ -296,6 +297,7 @@ export class Game {
     if (!alive()) return;
     if (!alive()) return;
     this.hud.build({ race, geo, mobile: this.mobile, spectator: !!cfg.spectator, manual: this.settings.control === 'MANUAL', settings: this.settings, onPause: () => this.pause(), onCamera: () => this.cycleCamera(), input: this.input });
+    { const hd = this.hudRoot.querySelector(".hud"); if (hd) hd.classList.toggle("portrait", !!viewSize().portrait); }
     this.input.tiltOn = !!this.settings.tilt;
     audio.setVolume({ master: this.settings.master, engine: this.settings.engine, sfx: this.settings.sfx });
     audio.stopAll();
@@ -792,21 +794,23 @@ export class Game {
     const look = this._look;
     if (mode === 'chase' || mode === 'far') {
       const far = mode === 'far';
+      // portrait: taller/further chase cam looking further down the road so upcoming corners stay in view (car is long and low)
+      const P = viewSize().portrait ? 1 : 0; const kb = 1 + P * 0.4, ku = 1 + P * 0.95;
       let yawT = m.root.rotation.y;
       if (e.crashT > 0) yawT = cs.yaw; // don't spin with a tumbling bike
       if (!this.camInit) { cs.yaw = yawT; cs.yawV = 0; cs.back = far ? 13 : 8.2; cs.backV = 0; cs.up = far ? 4.2 : 2.3; cs.upV = 0; cs.roll = 0; cs.rollV = 0; this.camInit = true; }
       while (yawT - cs.yaw > Math.PI) yawT -= Math.PI * 2; while (yawT - cs.yaw < -Math.PI) yawT += Math.PI * 2;
       crit(cs, 'yaw', yawT, far ? 4.5 : 5.5, dt);
-      const backT = (far ? 13 : 8.2) + sp * (far ? 1.4 : 1.0) + clamp(e.accel, -14, 9) * 0.05;
+      const backT = (far ? 13 : 8.2) * kb + sp * (far ? 1.4 : 1.0) + clamp(e.accel, -14, 9) * 0.05;
       crit(cs, 'back', backT, 3.2, dt);
-      crit(cs, 'up', (far ? 4.2 : 2.3) - sp * 0.2, 4, dt);
-      crit(cs, 'roll', m.anim.lean * (far ? 0.5 : 1.0), 6, dt);
+      crit(cs, 'up', (far ? 4.2 : 2.3) * ku - sp * 0.2, 4, dt);
+      crit(cs, 'roll', m.anim.lean * (far ? 0.5 : 1.0) * (1 - P * 0.4), 6, dt);
       const sy = Math.sin(cs.yaw), cy = Math.cos(cs.yaw);
       cam.position.set(bp.x + sy * cs.back, bp.y + cs.up, bp.z + cy * cs.back);
       cam.position.y = Math.max(cam.position.y, bp.y + 0.9);
-      look.set(bp.x - sy * 9, bp.y + 0.8, bp.z - cy * 9);
+      const la = 9 + P * 12; look.set(bp.x - sy * la, bp.y + 0.8 - P * 0.6, bp.z - cy * la);
       cam.lookAt(look); cam.rotateZ(-cs.roll);
-      fovT = (far ? 56 : 58) + sp * 20 + (e.draft || 0) * 3;
+      fovT = (far ? 56 : 58) + P * 18 + sp * (20 - P * 6) + (e.draft || 0) * 3; // portrait: wider vertical FOV
       blur = sp * sp * 0.05;
     } else if (mode === 'helmet') {
       m.root.updateMatrixWorld(true);

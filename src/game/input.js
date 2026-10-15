@@ -1,3 +1,4 @@
+import { screenAngle } from '../orient.js';
 // Keyboard, touch buttons, gamepad and optional tilt steering.
 export class Input {
   constructor() {
@@ -15,10 +16,8 @@ export class Input {
     window.addEventListener('blur', () => this.keys.clear());
     window.addEventListener('deviceorientation', (e) => {
       if (!this.tiltOn || e.gamma == null) return;
-      // CSS-rotated stage (portrait device held sideways): steering axis is beta, like a clockwise-held landscape device
-      if (window.__rotated) { this.tilt = Math.max(-1, Math.min(1, (e.beta || 0) / 25)); return; }
-      const landscape = Math.abs(window.orientation || 0) === 90 || innerWidth > innerHeight;
-      const raw = landscape ? (e.beta || 0) * ((window.orientation || 90) === 90 ? 1 : -1) : (e.gamma || 0);
+      // any orientation: steer around the screen's own vertical axis (portrait, both landscapes, upside-down)
+      const ang = screenAngle(), raw = ang === 90 ? (e.beta || 0) : ang === 270 ? -(e.beta || 0) : ang === 180 ? -(e.gamma || 0) : (e.gamma || 0);
       this.tilt = Math.max(-1, Math.min(1, raw / 25));
     });
   }

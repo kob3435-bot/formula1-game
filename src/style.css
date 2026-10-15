@@ -387,16 +387,39 @@ h4 span { color: var(--txt); }
 .hud.mobile ~ .cutin.mini, .cutin.mini.m { height: 44px; } .cutin.mini.m .ci-art svg { width: 34px; } .cutin.mini.m .ci-txt b { font-size: 14px; } .cutin.mini.m .ci-txt span { font-size: 10px; } .cutin.mini.m .ci-txt small { display: none; }
 .cutin.mini .ci-txt { transform: none; } .cutin.mini .ci-txt b { font-size: 20px; text-shadow: 2px 2px 0 var(--pink); -webkit-text-stroke: 1px #1a1426; } .cutin.mini .ci-txt span { font-size: 13px; } .cutin.mini .ci-txt small { font-size: 10px; }
 @keyframes ciMini { 0% { transform: translateX(110%); } 12% { transform: translateX(0); } 85% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(110%); opacity: 0; } }
-/* ===== landscape on phones: #stage is the game's viewport; in portrait (iOS / no orientation lock) it is rotated 90° ===== */
+/* ===== #stage = the game's viewport (container for cq* units); never rotated ===== */
 #stage { position: fixed; left: 0; top: 0; width: var(--sw, 100vw); height: var(--sh, 100vh); overflow: hidden; container: stage / size; transform: translateZ(0); }
-html.rot #stage { left: 100%; transform-origin: 0 0; transform: rotate(90deg); }
-html.rot body { overscroll-behavior: none; }
 .hud.mobile .banner { gap: 2px; margin-top: 0; } .hud.mobile .banner .note { font-size: 10px; padding: 1px 8px; line-height: 15px; }
 .hud.mobile .banner .note:nth-last-child(n+3) { display: none; } /* phones: at most 2 chips */
 .cutin.mini.m .ci-panel { top: 0; height: 100%; }
 /* F1: Overtake Mode chip, pit request + BOX touch button */
 #h-otm { color: #7dff9b; }
 #h-box { color: #ffcc00; font-weight: 800; letter-spacing: 1px; margin-left: 6px; }
-.touch .tbtn.box { width: 12vw; height: 14vh; bottom: auto; top: 28vh; left: 50%; transform: translateX(-50%); font-size: 18px; font-weight: 900; letter-spacing: 2px; }
-html.rot #ui, html.rot #ui * { touch-action: none; } /* rotated: menus are finger-scrolled by orient.js along the rotated axis */
+.touch .tbtn.box { width: 12cqw; height: 14cqh; bottom: auto; top: 28cqh; left: 50%; transform: translateX(-50%); font-size: 18px; font-weight: 900; letter-spacing: 2px; }
 #ui { overscroll-behavior: contain; }
+
+/* =================== PORTRAIT LAYOUT (touch devices held upright; ported from GP Racing Legends v10) =================== */
+html.portrait .hud.mobile .hud-tl { top: max(8px, env(safe-area-inset-top)); left: 8px; max-width: 54cqw; } html.portrait .hud.mobile .hud-tl > * { max-width: 100%; }
+html.portrait .hud.mobile .hud-pos .big { font-size: 30px; }
+html.portrait .hud.mobile .tower { display: block; margin-top: 6px; font-size: 10px; width: 132px; }
+html.portrait .hud.mobile .tower .tr { padding: 1px 4px; line-height: 14px; }
+html.portrait .hud.mobile .tower .tr:nth-child(n+6) { display: none; }
+html.portrait .hud.mobile .hud-tr { top: max(8px, env(safe-area-inset-top)); right: 8px; }
+html.portrait .hud.mobile .timing { margin-top: 46px; min-width: 118px; font-size: 10px; }
+html.portrait .hud.mobile .hud-tc { top: calc(max(8px, env(safe-area-inset-top)) + 204px); width: 94cqw; }
+html.portrait .hud.mobile .banner { max-width: 90cqw; }
+html.portrait .hud.mobile .hud-bl { display: block; left: auto; bottom: auto; right: 8px; top: calc(max(8px, env(safe-area-inset-top)) + 112px); width: 84px !important; height: 84px !important; opacity: .85; }
+html.portrait .hud.mobile .hud-bl canvas { width: 84px !important; height: 84px !important; }
+html.portrait .hud.mobile .hud-br { right: auto; left: 50%; transform: translateX(-50%); bottom: calc(10px + env(safe-area-inset-bottom)); text-align: center; z-index: 2; }
+html.portrait .hud.mobile .rpm { width: 120px; margin: 0 auto; }
+html.portrait .hud.mobile .rival { top: auto; bottom: calc(46% + 8px); left: 50%; transform: translateX(-50%); }
+/* large LEFT / RIGHT steering zones = the whole bottom half, split down the middle; BOX and pedals sit above them */
+html.portrait .touch .tbtn.left, html.portrait .touch .tbtn.right { bottom: 0; height: 46%; width: 50%; max-width: none; border-radius: 0; background: rgba(255,255,255,.05); border: 0; border-top: 2px solid rgba(255,255,255,.18); }
+html.portrait .touch .tbtn.left { left: 0; border-right: 1px solid rgba(255,255,255,.14); } html.portrait .touch .tbtn.right { right: 0; }
+html.portrait .touch .tbtn.left span, html.portrait .touch .tbtn.right span { font-size: 40px; opacity: .55; }
+html.portrait .touch .tbtn.active { background: rgba(225,6,0,.22); }
+html.portrait .touch .brake, html.portrait .touch .gas { bottom: calc(46% + 10px); width: 26cqw; height: 64px; }
+html.portrait .touch .brake { left: 10px; } html.portrait .touch .gas { right: 10px; }
+html.portrait .touch .tbtn.box { top: auto; bottom: calc(46% + 84px); left: 50%; right: auto; transform: translateX(-50%); width: 76px; height: 40px; }
+html.portrait .cutin.mini { top: auto; bottom: calc(46% + 70px); width: 62cqw; left: 6px; }
+html.portrait .cutin .ci-panel { top: 22%; height: 22%; padding-left: 6%; }
